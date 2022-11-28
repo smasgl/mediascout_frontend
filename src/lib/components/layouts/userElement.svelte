@@ -6,13 +6,10 @@
   export let userName: string
 </script>
 
-<button
-  type="button"
-  class="text-text w-full rounded-md text-sm text-center inline-flex items-center justify-between bg-secondary hover:bg-primary p-2"
->
-  <img alt="User profile picture" src={image} class="h-8 w-8" />
-  {userName}
-  <div>
-    <Icon iconData={IconData.RIGHT_ARROW} compClass="fill-red-600 h-8 w-8" />
-  </div>
-</button>
+<li>
+  <button class="flex w-full items-center p-2 text-base font-normal rounded-lg text-text hover:bg-gray-700">
+    <img alt="User profile picture" src={image} class="h-8 w-8" />
+    <span class="flex-1 ml-3 whitespace-nowrap">{userName}</span>
+    <Icon iconData={IconData.RIGHT_ARROW} compClass="fill-text h-8 w-8" />
+  </button>
+</li>
