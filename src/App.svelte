@@ -1,5 +1,6 @@
 <script lang="ts">
   import SideMenu from './lib/components/layouts/sideMenu.svelte'
+  import SocialLink from './lib/components/layouts/socialLink.svelte';
 </script>
 
 <svelte:head>

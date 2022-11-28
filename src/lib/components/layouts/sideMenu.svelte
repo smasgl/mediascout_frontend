@@ -2,6 +2,7 @@
     import { IconData } from '../../enum/iconData'
 import Icon from '../utils/icon.svelte'
     import PostElement from './postElement.svelte'
+    import SocialLink from './socialLink.svelte'
     import UserElement from './userElement.svelte'
 
 </script>
@@ -14,6 +15,7 @@ import Icon from '../utils/icon.svelte'
        <ul class="space-y-2">
         <PostElement iconData={IconData.VIDEO} title="New video!!!!"/>
         <UserElement profileName="fadsfasdf" profilePicture="https://yt3.ggpht.com/5oUY3tashyxfqsjO5SGhjT4dus8FkN9CsAHwXWISFrdPYii1FudD4ICtLfuCw6-THJsJbgoY=s176-c-k-c0x00ffffff-no-rj-mo"/>
-       </ul>
+        <SocialLink link="fasdfasdf" valid={true}/>
+    </ul>
     </div>
  </aside>
