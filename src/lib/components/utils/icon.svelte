@@ -8,8 +8,7 @@
 <svg
   xmlns="http://www.w3.org/2000/svg"
   class={compClass}
-  preserveAspectRatio="xMidYMid meet"
-  viewBox="0 0 24 24"
+  viewBox="{iconData.viewBox}"
 >
   <path d={iconData.path} />
 </svg>

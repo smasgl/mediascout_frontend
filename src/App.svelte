@@ -1,9 +1,11 @@
 <script lang="ts">
-  import UserElement from './lib/components/layouts/userElement.svelte';
-  import IconedButton from './lib/components/utils/iconedButton.svelte'
-  import {IconData} from './lib/enum/iconData'
+  import SideMenu from './lib/components/layouts/sideMenu.svelte'
 </script>
 
-<main class="bg-secondary h-screen w-screen">
-  
+<svelte:head>
+  <title>MediaScout</title>
+</svelte:head>
+
+<main class="bg-background h-screen w-screen flex flex-col">
+  <SideMenu />
 </main>
