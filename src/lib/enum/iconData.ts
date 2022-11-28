@@ -12,7 +12,7 @@ export class IconData {
 		"Close icon"
 	);
 	public static readonly RIGHT_ARROW = new IconData(
-		"m18.75 36-2.15-2.15 9.9-9.9-9.9-9.9 2.15-2.15L30.8 23.95Z",
+		"M9.29 15.88L13.17 12L9.29 8.12a.996.996 0 1 1 1.41-1.41l4.59 4.59c.39.39.39 1.02 0 1.41L10.7 17.3a.996.996 0 0 1-1.41 0c-.38-.39-.39-1.03 0-1.42z",
 		"Right arrow icon"
 	);
 	public static readonly YOUTUBE = new IconData(
