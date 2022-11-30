@@ -1,6 +1,6 @@
 <script lang="ts">
+  import MainView from './lib/components/layouts/mainView.svelte'
   import SideMenu from './lib/components/layouts/sideMenu.svelte'
-    import TabsManager from './lib/components/layouts/tabsManager.svelte'
 </script>
 
 <svelte:head>
@@ -9,5 +9,5 @@
 
 <main class="bg-background h-screen w-screen flex flex-row p-4 space-x-4">
   <SideMenu />
-  <TabsManager />
+  <MainView userName="Simon" />
 </main>
