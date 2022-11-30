@@ -1,0 +1,17 @@
+<script lang="ts">
+  import {IconData} from '../../enum/iconData'
+  import Icon from '../utils/icon.svelte'
+    import IconedButton from '../utils/iconedButton.svelte'
+
+  export let iconData: IconData
+  export let title: string
+</script>
+
+<li>
+  <a class="flex w-full items-center p-2 text-base font-normal rounded-lg text-text hover:bg-secondary">
+    <Icon {iconData} compClass="fill-text h-8 w-8" />
+    <span class="flex-1 ml-3 whitespace-nowrap select-none">{title}</span>
+    <IconedButton iconData={IconData.DOWNLOAD} compClass="fill-accent h-8 w-8" />
+  </a>
+</li>
+
