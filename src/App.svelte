@@ -1,7 +1,7 @@
 <script lang="ts">
   import MainView from './lib/components/layouts/mainView.svelte'
   import SideMenu from './lib/components/layouts/sideMenu.svelte'
-  import SocialLink from './lib/components/layouts/socialLink.svelte';
+  import SocialLink from './lib/components/layouts/socialLink.svelte'
 </script>
 
 <svelte:head>
