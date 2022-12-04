@@ -8,7 +8,7 @@
 <svg
   xmlns="http://www.w3.org/2000/svg"
   class={compClass}
-  viewBox="{iconData.viewBox}"
+  viewBox={iconData.viewBox}
 >
   <path d={iconData.path} />
 </svg>

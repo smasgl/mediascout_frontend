@@ -1,6 +1,6 @@
 <script lang="ts">
+  import DefaultModal from './lib/components/layouts/defaultModal.svelte'
   import SideMenu from './lib/components/layouts/sideMenu.svelte'
-  import SocialLink from './lib/components/layouts/socialLink.svelte';
 </script>
 
 <svelte:head>
@@ -8,5 +8,6 @@
 </svelte:head>
 
 <main class="bg-background h-screen w-screen flex flex-col">
+  <DefaultModal />
   <SideMenu />
 </main>
