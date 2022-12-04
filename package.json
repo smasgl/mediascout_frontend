@@ -8,8 +8,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.json",
-    "format": "prettier --write src/**/*.{css,html,js,svelte}",
-    "lint": "eslint --fix --quiet src --ext .ts,.svelte",
+    "format": "prettier --write .",
+    "lint": "prettier --check . && eslint .",
     "prepare": "npm run format && npm run lint"
   },
   "devDependencies": {
