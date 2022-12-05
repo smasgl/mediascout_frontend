@@ -1,6 +1,5 @@
 <script lang="ts">
   import MainView from './lib/components/layouts/mainView.svelte'
-    import ProfileMutation from './lib/components/layouts/profileMutation.svelte'
   import SideMenu from './lib/components/layouts/sideMenu.svelte'
 </script>
 
@@ -10,6 +9,8 @@
 
 <main class="bg-primary h-screen w-screen flex flex-row p-4 space-x-4">
   <SideMenu />
-  <MainView userName="Simon" />
-  <ProfileMutation title="Simon" open={true}/>
+  <MainView
+    profileName="Simon"
+    profilePicture="https://yt3.ggpht.com/5oUY3tashyxfqsjO5SGhjT4dus8FkN9CsAHwXWISFrdPYii1FudD4ICtLfuCw6-THJsJbgoY=s88-c-k-c0x00ffffff-no-rj"
+  />
 </main>

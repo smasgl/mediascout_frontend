@@ -8,7 +8,7 @@
 
 <li>
   <button
-    class="flex w-full items-center p-2 text-base font-normal rounded-lg text-text hover:bg-secondary"
+    class="flex w-full items-center p-2 text-base font-normal rounded-lg text-text hover:bg-primary"
   >
     <img alt="profile" src={profilePicture} class="h-8 w-8" />
     <span class="flex-1 ml-3 whitespace-nowrap">{profileName}</span>

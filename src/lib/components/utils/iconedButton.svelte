@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { createEventDispatcher } from 'svelte'
+  import {createEventDispatcher} from 'svelte'
   import type {IconData} from '../../enum/iconData'
   import Icon from './icon.svelte'
 
@@ -8,9 +8,9 @@
   export let compClass: string = ''
 
   const dispatch = createEventDispatcher()
-    function onClick() {
-        dispatch('click')
-    }
+  function onClick() {
+    dispatch('click')
+  }
 </script>
 
 <button type="button" class="{compClass} hover:opacity-75" on:click={onClick}>
