@@ -7,7 +7,7 @@
   export let userName: string
 </script>
 
-<div class="bg-primary w-full h-full rounded flex flex-col">
+<div class="bg-secondary w-full h-full rounded flex flex-col">
   <div class="flex flex-row justify-between items-center p-4">
     <span class="text-text self-left text-2xl font-semibold py-2"
       >{userName}</span

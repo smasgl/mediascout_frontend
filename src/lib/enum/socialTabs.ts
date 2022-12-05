@@ -1,4 +1,4 @@
 export enum SocialTabs {
-    YOUTUBE,
-    TWITTER,
+  YOUTUBE,
+  TWITTER,
 }

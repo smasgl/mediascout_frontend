@@ -16,7 +16,7 @@
   <input
     type="text"
     class="rounded-none rounded-r-lg block flex-1 min-w-0 w-full text-sm p-2.5
-    bg-gray-700 border-gray-600 border-2 placeholder-gray-400 text-text focus:border-accent outline-0"
+    bg-gray-700 border-gray-600 border-2 placeholder-gray-400 text-text focus:border-accent outline-none ring-0"
     placeholder={placeHolder}
     bind:value
   />

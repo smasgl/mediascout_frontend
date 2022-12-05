@@ -7,7 +7,7 @@
   <title>MediaScout</title>
 </svelte:head>
 
-<main class="bg-background h-screen w-screen flex flex-row p-4 space-x-4">
+<main class="bg-primary h-screen w-screen flex flex-row p-4 space-x-4">
   <SideMenu />
   <MainView userName="Simon" />
 </main>
