@@ -2,6 +2,7 @@
   import TabsManager from './tabsManager.svelte'
   import IconedButton from './../utils/iconedButton.svelte'
   import {IconData} from '../../enum/iconData'
+  import SocialTab from './socialTab.svelte'
 
   export let userName: string
 </script>
@@ -16,5 +17,9 @@
       compClass="fill-accent h-8 w-8"
     />
   </div>
-  <TabsManager />
+  <TabsManager>
+    <div slot="youtube">
+      <SocialTab />
+    </div>
+  </TabsManager>
 </div>

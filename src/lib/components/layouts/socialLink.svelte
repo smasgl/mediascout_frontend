@@ -1,27 +1,32 @@
 <script lang="ts">
   import {IconData} from '../../enum/iconData'
+  import Input from '../utils/input.svelte'
   import Icon from '../utils/icon.svelte'
+  import {LinkState} from '../../enum/LinkState'
+  import LoadingSpinner from '../utils/loadingSpinner.svelte'
 
-  export let link: string
-  export let valid: boolean
+  export let link = ''
+  export let state: LinkState
+
+  let icon: IconData
+  let colorClass: string
+
+  $: {
+    if (state === LinkState.VALID) {
+      icon = IconData.VALID
+      colorClass = 'fill-green-600'
+    } else if (state === LinkState.INVALID) {
+      icon = IconData.INVALID
+      colorClass = 'fill-red-600'
+    }
+  }
 </script>
 
-<div class="flex w-full space-x-2">
-  <div class="relative w-full">
-    <div
-      class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none"
-    >
-      <Icon iconData={IconData.URL} compClass="fill-text w-5" />
-    </div>
-    <input
-      type="text"
-      value={link}
-      class="border text-sm rounded-lg block w-full pl-10 p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-text"
-      placeholder="Account link"
-    />
-  </div>
-  <Icon
-    iconData={valid ? IconData.VALID : IconData.INVALID}
-    compClass="{valid ? 'fill-green-600' : 'fill-red-600'} w-8"
-  />
+<div class="flex w-full space-x-2 items-center">
+  <Input iconData={IconData.URL} placeHolder="URL" bind:value={link} />
+  {#if state === LinkState.LOADING}
+    <LoadingSpinner />
+  {:else}
+    <Icon iconData={icon} compClass="w-8 {colorClass}" />
+  {/if}
 </div>
