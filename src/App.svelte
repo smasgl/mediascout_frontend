@@ -1,5 +1,5 @@
 <script lang="ts">
-  import DefaultModal from './lib/components/layouts/defaultModal.svelte'
+  import MainView from './lib/components/layouts/mainView.svelte'
   import SideMenu from './lib/components/layouts/sideMenu.svelte'
 </script>
 
@@ -7,7 +7,7 @@
   <title>MediaScout</title>
 </svelte:head>
 
-<main class="bg-background h-screen w-screen flex flex-col">
-  <DefaultModal />
+<main class="bg-background h-screen w-screen flex flex-row p-4 space-x-4">
   <SideMenu />
+  <MainView userName="Simon" />
 </main>

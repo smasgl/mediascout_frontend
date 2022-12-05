@@ -8,7 +8,7 @@
 </script>
 
 <li>
-  <div
+  <a
     class="flex w-full items-center p-2 text-base font-normal rounded-lg text-text hover:bg-secondary"
   >
     <Icon {iconData} compClass="fill-text h-8 w-8" />
