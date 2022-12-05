@@ -10,7 +10,7 @@
   }
 </script>
 
-<div class="p-2 w-full flex flex-col h-full">
+<div class="p-4 w-full flex flex-col h-full">
   <ul class="flex flex-wrap text-sm font-medium text-center text-gray-500">
     <li class="mr-2">
       <button
