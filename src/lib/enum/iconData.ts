@@ -59,6 +59,16 @@ export class IconData {
     'Close icon',
     '0 0 24 24'
   )
+  public static readonly EDIT = new IconData(
+    'm14.06 9.02l.92.92L5.92 19H5v-.92l9.06-9.06M17.66 3c-.25 0-.51.1-.7.29l-1.83 1.83l3.75 3.75l1.83-1.83a.996.996 0 0 0 0-1.41l-2.34-2.34c-.2-.2-.45-.29-.71-.29zm-3.6 3.19L3 17.25V21h3.75L17.81 9.94l-3.75-3.75z',
+    'Edit icon',
+    '0 0 24 24'
+  )
+  public static readonly ADD = new IconData(
+    'M128 20a108 108 0 1 0 108 108A108.1 108.1 0 0 0 128 20Zm0 192a84 84 0 1 1 84-84a84.1 84.1 0 0 1-84 84Zm52-84a12 12 0 0 1-12 12h-28v28a12 12 0 0 1-24 0v-28H88a12 12 0 0 1 0-24h28V88a12 12 0 0 1 24 0v28h28a12 12 0 0 1 12 12Z',
+    'Add icon',
+    '0 0 256 256'
+  )
 
   private constructor(
     public readonly path: string,
