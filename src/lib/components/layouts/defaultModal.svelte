@@ -1,11 +1,10 @@
 <script lang="ts">
   import {createEventDispatcher} from 'svelte'
-  import {IconData} from '../../enum/iconData'
-  import Icon from '../utils/icon.svelte'
+    import CloseButton from '../utils/closeButton.svelte'
 
   export let open = true
   export let dismissible = true
-  export let title = 'Title'
+  export let title:string|undefined
   export let maxWidth = 'max-w-xl'
 
   const dispatch = createEventDispatcher()
@@ -21,31 +20,19 @@
   >
     <div class="relative p-4 w-full h-full md:h-auto mx-auto {maxWidth}">
       <div class="relative rounded-lg shadow bg-secondary">
-        <div class="flex justify-between p-2">
-          <!-- Modal header -->
+        {#if title}
+        <div class="flex justify-between pt-2 px-2">
           <div
-            class="h-11.5 m-2 flex justify-between pl-1 pb-2 w-full border-b rounded-t border-gray-600"
+            class="h-11.5 mx-2 mt-2 flex justify-between pb-1 w-full border-b rounded-t border-gray-600"
           >
             <h3 class="font-semibold lg:text-xl text-text">
               {title}
             </h3>
-            {#if dismissible}
-              <button
-                type="button"
-                class="bg-transparent p-0.5 rounded-lg inline-flex items-center hover:bg-primary"
-                on:click={onCloseClick}
-              >
-                <div>
-                  <Icon
-                    iconData={IconData.CLOSE}
-                    compClass="fill-accent h-8 w-8"
-                  />
-                </div>
-              </button>
-            {/if}
+            <CloseButton dismissible={dismissible} on:close={onCloseClick}/>
           </div>
         </div>
-        <div class="px-4 pb-4">
+        {/if}
+        <div class="px-4 p-4">
           <slot />
         </div>
       </div>
