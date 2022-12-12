@@ -8,13 +8,16 @@
 
 <aside class="min-w-fit w-1/3 h-full" aria-label="Sidebar">
   <div class="p-4 bg-secondary h-full rounded">
-    <a href="." class="flex items-center pl-2 mb-5 space-x-2">
-      <Icon iconData={IconData.BINOCULARS} compClass="fill-accent w-8" />
-      <span
-        class="self-center text-xl font-semibold whitespace-nowrap text-text"
-        >MediaScout</span
-      >
-    </a>
+    <div class="flex justify-between">
+      <a href="." class="flex items-center pl-2 mb-5 space-x-2">
+        <Icon iconData={IconData.BINOCULARS} compClass="fill-accent w-8" />
+        <span
+          class="self-center text-xl font-semibold whitespace-nowrap text-text"
+          >MediaScout</span
+        >
+      </a>
+      <a href="." class="font-normal text-blue-600 dark:text-blue-500 hover:underline">Admin login</a>
+    </div>
     <div class="flex flex-row space-x-2 items-center mb-5">
       <Input iconData={IconData.SEARCH} placeHolder="Search..." />
       <IconedButton
