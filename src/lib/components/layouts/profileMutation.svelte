@@ -1,5 +1,5 @@
 <script lang="ts">
-  import {createEventDispatcher} from 'svelte'
+  import {createEventDispatcher, onMount} from 'svelte'
   import {ButtonStyle} from '../../enum/buttonStyles'
   import {IconData} from '../../enum/iconData'
   import {User} from '../../models/user'
@@ -13,6 +13,11 @@
   export let open = false
 
   let openDialogue = false
+  let title:string;
+
+  onMount(() => {
+    title = user.name;
+  })
 
   const dispatch = createEventDispatcher()
   function onDeleteClick() {
@@ -29,7 +34,7 @@
   }
 </script>
 
-<DefaultModal bind:open title={newUser ? 'New profile' : `Edit: ${user.name}`}>
+<DefaultModal bind:open title={newUser ? 'New profile' : `Edit: ${title}`}>
   <div class="flex flex-col space-y-2">
     <Input
       iconData={IconData.PROFILE}
