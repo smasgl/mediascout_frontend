@@ -5,10 +5,11 @@
   import Icon from '../utils/icon.svelte'
   import IconedButton from '../utils/iconedButton.svelte'
   import Input from '../utils/input.svelte'
-  import ProfileMutation from './profileMutation.svelte'
   import UserElement from './userElement.svelte'
+  import UserMutation from './userMutation.svelte'
 
   let userModalOpened = false
+  let search = ""
   export let selectedUser: User
   let users: User[] = [
     new User(
@@ -57,13 +58,13 @@
       <div>
         <a
           href="."
-          class="font-normal text-blue-600 dark:text-blue-500 hover:underline"
+          class="font-normal text-blue-500 hover:underline"
           >Admin login</a
         >
       </div>
     </div>
     <div class="flex flex-row space-x-2 items-center mb-5">
-      <Input iconData={IconData.SEARCH} placeHolder="Search..." />
+      <Input iconData={IconData.SEARCH} placeHolder="Search..." bind:value={search}/>
       <IconedButton
         on:click={() => (userModalOpened = true)}
         iconData={IconData.ADD}
@@ -71,15 +72,17 @@
       />
     </div>
     <ul class="h-[calc(100vh-11rem)] overflow-y-auto">
-      {#each users as user}
-        <UserElement {user} on:click={() => (selectedUser = user)} />
+      {#each users.filter(x => x.name.toLowerCase().includes(search.toLowerCase())) as user}
+        <UserElement {user} on:click={() => (selectedUser = user)} selected={user == selectedUser}/>
       {/each}
     </ul>
   </div>
 </aside>
 
-<ProfileMutation
-  bind:open={userModalOpened}
-  on:save={onSaveProfile}
-  on:delete={onDeleteProfile}
-/>
+{#if userModalOpened}
+  <UserMutation
+    bind:open={userModalOpened}
+    on:save={onSaveProfile}
+    on:delete={onDeleteProfile}
+  />
+{/if}

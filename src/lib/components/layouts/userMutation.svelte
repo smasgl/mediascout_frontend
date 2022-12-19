@@ -8,15 +8,18 @@
   import ConfirmationModal from './confirmationModal.svelte'
   import DefaultModal from './defaultModal.svelte'
 
-  export let user: User = new User()
-  export let newUser = true
+  export let user: User = null
   export let open = false
-
+  
   let openDialogue = false
-  let title:string;
+  let nameValid = false
+  let name = ""
+  let newUser = true
 
   onMount(() => {
-    title = user.name;
+    newUser = user == null
+    user ??= new User()
+    name = user.name
   })
 
   const dispatch = createEventDispatcher()
@@ -32,15 +35,22 @@
     })
     open = false
   }
+
+  $: nameValid = name?.length >= 2 && name?.length <= 50
 </script>
 
-<DefaultModal bind:open title={newUser ? 'New profile' : `Edit: ${title}`}>
+<DefaultModal bind:open title={newUser ? 'New profile' : `Edit: ${user.name}`}>
   <div class="flex flex-col space-y-2">
     <Input
       iconData={IconData.PROFILE}
       placeHolder="Profile name"
-      bind:value={user.name}
+      bind:value={name}
     />
+    {#if !nameValid}
+      <h5 class="text-sm text-red-500">
+        The user name has to be between 2 and 50 characters.
+      </h5>
+    {/if}
     {#if !newUser}
       <div class="flex justify-between rounded bg-red-600 bg-opacity-20 p-2">
         <h5 class="text-sm text-text">
@@ -71,7 +81,7 @@
 </DefaultModal>
 
 <ConfirmationModal
-  text={`Are you sure you want to delete the profile: \"${user.name}\"`}
+  text={`Are you sure you want to delete the profile: \"${user?.name}\"`}
   bind:open={openDialogue}
   on:confirm={onDeleteClick}
 />

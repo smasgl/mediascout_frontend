@@ -1,6 +1,8 @@
 <script lang="ts">
+    import { each } from 'svelte/internal'
   import {IconData} from '../../enum/iconData'
   import {LinkState} from '../../enum/LinkState'
+    import type { User } from '../../models/user'
   import IconedButton from '../utils/iconedButton.svelte'
   import Input from '../utils/input.svelte'
   import PostElement from './postElement.svelte'

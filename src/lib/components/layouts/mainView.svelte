@@ -4,7 +4,7 @@
   import {IconData} from '../../enum/iconData'
   import SocialTab from './socialTab.svelte'
   import type {User} from '../../models/user'
-  import ProfileMutation from './profileMutation.svelte'
+  import UserMutation from './userMutation.svelte'
 
   export let selectedUser: User
   let userModalOpened = false;
@@ -43,8 +43,7 @@
 </div>
 
 {#if userModalOpened}
-  <ProfileMutation
-    newUser={false}
+  <UserMutation
     user={selectedUser}
     bind:open={userModalOpened}
   />
