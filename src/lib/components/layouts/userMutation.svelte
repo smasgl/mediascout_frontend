@@ -36,7 +36,7 @@
     open = false
   }
 
-  $: nameValid = name?.length >= 2 && name?.length <= 50
+  $: nameValid = name?.length >= 3 && name?.length <= 50
 </script>
 
 <DefaultModal bind:open title={newUser ? 'New profile' : `Edit: ${user.name}`}>
@@ -48,7 +48,7 @@
     />
     {#if !nameValid}
       <h5 class="text-sm text-red-500">
-        The user name has to be between 2 and 50 characters.
+        The user name has to be between 3 and 50 characters.
       </h5>
     {/if}
     {#if !newUser}

@@ -1,5 +1,8 @@
 <script lang="ts">
+    import { space } from 'svelte/internal'
+    import { envVariables } from '../../../envVariables'
   import {IconData} from '../../enum/iconData'
+    import type { AuthUser } from '../../models/authUser'
   import {User} from '../../models/user'
   import {YoutubeData} from '../../models/youtubeData'
   import Icon from '../utils/icon.svelte'
@@ -8,9 +11,12 @@
   import UserElement from './userElement.svelte'
   import UserMutation from './userMutation.svelte'
 
+  export let selectedUser: User
+  export let loginOpen = false
+  export let authUser:AuthUser|undefined = undefined
+
   let userModalOpened = false
   let search = ""
-  export let selectedUser: User
   let users: User[] = [
     new User(
       0,
@@ -56,11 +62,15 @@
         >
       </a>
       <div>
-        <a
-          href="."
-          class="font-normal text-blue-500 hover:underline"
-          >Admin login</a
-        >
+        {#if authUser}
+          <img class="w-8 h-8 rounded-full" src={`${envVariables.AVATAR_GENERATION_URL}${authUser.name}.svg`} alt="Your profile avatar">
+        {:else}
+          <button
+            on:click={() => loginOpen = true}
+            class="font-normal text-blue-500 hover:underline"
+            >Login
+          </button>
+        {/if}
       </div>
     </div>
     <div class="flex flex-row space-x-2 items-center mb-5">

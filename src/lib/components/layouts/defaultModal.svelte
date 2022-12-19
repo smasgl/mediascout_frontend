@@ -4,7 +4,7 @@
 
   export let open = true
   export let dismissible = true
-  export let title: string | undefined
+  export let title: string | undefined = undefined
   export let maxWidth = 'max-w-xl'
 
   const dispatch = createEventDispatcher()
