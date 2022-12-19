@@ -3,17 +3,21 @@
   import IconedButton from './../utils/iconedButton.svelte'
   import {IconData} from '../../enum/iconData'
   import SocialTab from './socialTab.svelte'
+  import type {User} from '../../models/user'
 
-  export let profilePicture: string
-  export let profileName: string
+  export let selectedUser: User
 </script>
 
 <div class="bg-secondary w-full h-full rounded flex flex-col">
   <div class="flex flex-row justify-between items-center px-4 pt-4 ">
     <div class="flex flex-row items-center space-x-2">
-      <img alt="profile" src={profilePicture} class="h-10 w-10" />
+      <img
+        alt="profile"
+        src={selectedUser?.youtube?.imageUrl}
+        class="h-10 w-10"
+      />
       <span class="text-text self-left text-2xl font-semibold py-2"
-        >{profileName}</span
+        >{selectedUser?.name}</span
       >
       <IconedButton
         iconData={IconData.EDIT}

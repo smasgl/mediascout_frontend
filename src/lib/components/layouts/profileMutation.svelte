@@ -2,43 +2,54 @@
   import {createEventDispatcher} from 'svelte'
   import {ButtonStyle} from '../../enum/buttonStyles'
   import {IconData} from '../../enum/iconData'
+  import {User} from '../../models/user'
   import DefaultButton from '../utils/defaultButton.svelte'
   import Input from '../utils/input.svelte'
   import ConfirmationModal from './confirmationModal.svelte'
   import DefaultModal from './defaultModal.svelte'
 
-  export let title: string
+  export let user: User = new User()
+  export let newUser = true
   export let open = false
 
-  export let openDialogue = false
+  let openDialogue = false
 
   const dispatch = createEventDispatcher()
   function onDeleteClick() {
-    dispatch('delete')
+    dispatch('delete', {
+      user: user,
+    })
+    open = false
   }
   function onSaveClick() {
-    dispatch('save')
+    dispatch('save', {
+      user: user,
+    })
+    open = false
   }
 </script>
 
-<DefaultModal bind:open title={title ? `Edit: ${title}` : 'New profile'}>
+<DefaultModal bind:open title={newUser ? 'New profile' : `Edit: ${user.name}`}>
   <div class="flex flex-col space-y-2">
     <Input
       iconData={IconData.PROFILE}
       placeHolder="Profile name"
-      value={title}
+      bind:value={user.name}
     />
-    <div class="flex justify-between rounded bg-red-600 bg-opacity-20 p-2">
-      <h5 class="text-sm text-text">
-        Don't delete! It is not recommended to delete data from archives. <br />
-        (Its the whole point of an archive...)
-      </h5>
-      <DefaultButton
-        text="Delete"
-        buttonStyle={ButtonStyle.CANCEL}
-        on:click={() => (openDialogue = true)}
-      />
-    </div>
+    {#if !newUser}
+      <div class="flex justify-between rounded bg-red-600 bg-opacity-20 p-2">
+        <h5 class="text-sm text-text">
+          Don't delete! It is not recommended to delete data from archives. <br
+          />
+          (Its the whole point of an archive...)
+        </h5>
+        <DefaultButton
+          text="Delete"
+          buttonStyle={ButtonStyle.CANCEL}
+          on:click={() => (openDialogue = true)}
+        />
+      </div>
+    {/if}
     <div class="flex justify-between border-t pt-2 border-gray-600">
       <DefaultButton
         text="Cancel"
@@ -55,7 +66,7 @@
 </DefaultModal>
 
 <ConfirmationModal
-  text={`Are you sure you want to delete the profile: \"${title}\"`}
+  text={`Are you sure you want to delete the profile: \"${user.name}\"`}
   bind:open={openDialogue}
   on:confirm={onDeleteClick}
 />
