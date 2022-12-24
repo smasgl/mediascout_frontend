@@ -10,10 +10,10 @@
 
   export let user: User = null
   export let open = false
-  
+
   let openDialogue = false
   let nameValid = false
-  let name = ""
+  let name = ''
   let newUser = true
 
   onMount(() => {

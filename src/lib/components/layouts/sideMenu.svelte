@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { space } from 'svelte/internal'
-    import { envVariables } from '../../../envVariables'
+  import {space} from 'svelte/internal'
+  import {envVariables} from '../../../envVariables'
   import {IconData} from '../../enum/iconData'
-    import type { AuthUser } from '../../models/authUser'
+  import type {AuthUser} from '../../models/authUser'
   import {User} from '../../models/user'
   import {YoutubeData} from '../../models/youtubeData'
   import Icon from '../utils/icon.svelte'
@@ -13,10 +13,10 @@
 
   export let selectedUser: User
   export let loginOpen = false
-  export let authUser:AuthUser|undefined = undefined
+  export let authUser: AuthUser | undefined = undefined
 
   let userModalOpened = false
-  let search = ""
+  let search = ''
   let users: User[] = [
     new User(
       0,
@@ -63,10 +63,14 @@
       </a>
       <div>
         {#if authUser}
-          <img class="w-8 h-8 rounded-full" src={`${envVariables.AVATAR_GENERATION_URL}${authUser.name}.svg`} alt="Your profile avatar">
+          <img
+            class="w-8 h-8 rounded-full"
+            src={`${envVariables.AVATAR_GENERATION_URL}${authUser.name}.svg`}
+            alt="Your profile avatar"
+          />
         {:else}
           <button
-            on:click={() => loginOpen = true}
+            on:click={() => (loginOpen = true)}
             class="font-normal text-blue-500 hover:underline"
             >Login
           </button>
@@ -74,7 +78,11 @@
       </div>
     </div>
     <div class="flex flex-row space-x-2 items-center mb-5">
-      <Input iconData={IconData.SEARCH} placeHolder="Search..." bind:value={search}/>
+      <Input
+        iconData={IconData.SEARCH}
+        placeHolder="Search..."
+        bind:value={search}
+      />
       <IconedButton
         on:click={() => (userModalOpened = true)}
         iconData={IconData.ADD}
@@ -82,8 +90,14 @@
       />
     </div>
     <ul class="h-[calc(100vh-11rem)] overflow-y-auto">
-      {#each users.filter(x => x.name.toLowerCase().includes(search.toLowerCase())) as user}
-        <UserElement {user} on:click={() => (selectedUser = user)} selected={user == selectedUser}/>
+      {#each users.filter(x => x.name
+          .toLowerCase()
+          .includes(search.toLowerCase())) as user}
+        <UserElement
+          {user}
+          on:click={() => (selectedUser = user)}
+          selected={user == selectedUser}
+        />
       {/each}
     </ul>
   </div>

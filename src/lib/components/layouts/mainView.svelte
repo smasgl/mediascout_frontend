@@ -7,7 +7,7 @@
   import UserMutation from './userMutation.svelte'
 
   export let selectedUser: User
-  let userModalOpened = false;
+  let userModalOpened = false
 </script>
 
 <div class="bg-secondary w-full h-full rounded flex flex-col">
@@ -22,7 +22,7 @@
         >{selectedUser?.name}</span
       >
       <IconedButton
-        on:click={() => userModalOpened = true}
+        on:click={() => (userModalOpened = true)}
         iconData={IconData.EDIT}
         compIconClass="fill-text h-8 w-8"
       />
@@ -43,8 +43,5 @@
 </div>
 
 {#if userModalOpened}
-  <UserMutation
-    user={selectedUser}
-    bind:open={userModalOpened}
-  />
+  <UserMutation user={selectedUser} bind:open={userModalOpened} />
 {/if}
