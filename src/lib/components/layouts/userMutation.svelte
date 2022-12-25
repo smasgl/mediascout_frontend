@@ -30,7 +30,9 @@
     open = false
   }
   function onSaveClick() {
+    user.name = name
     dispatch('save', {
+      newUser: newUser,
       user: user,
     })
     open = false

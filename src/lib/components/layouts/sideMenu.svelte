@@ -53,11 +53,24 @@
   //   ),
   // ]
 
-  function onSaveProfile(event: CustomEvent<{user: User}>) {}
+  function onSaveProfile(event: CustomEvent<{newUser:boolean, user: User}>) {
+    if(event.detail.newUser) {
+      console.log(event.detail.user)
+      API.post(envVariables.API_USER_ADD_URL, JSON.stringify({
+        name: event.detail.user.name
+      })).then(() => {
+        onLoadUsers()
+      }).catch(err => {
+        //TODO: Handle errors
+        console.log(err)
+      })
+    }
+  }
+
   function onDeleteProfile(event: CustomEvent<{user: User}>) {}
   function onLogoutClick() {
     API.get(envVariables.API_AUTH_LOGOUT_URL)
-      .then(res => {
+      .then(() => {
         authUser = undefined
       }).catch(err => {
         //TODO: Handle errors
