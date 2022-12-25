@@ -1,5 +1,4 @@
 <script lang="ts">
-  import {createEventDispatcher} from 'svelte'
   import {ButtonStyle} from '../../enum/buttonStyles'
   import DefaultButton from '../utils/defaultButton.svelte'
   import Icon from '../utils/icon.svelte'

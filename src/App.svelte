@@ -22,6 +22,7 @@
   {:else}
     <NoUserSelected />
   {/if}
+
   {#if loginOpen}
     <Login bind:open={loginOpen} bind:authUser/>
   {/if}

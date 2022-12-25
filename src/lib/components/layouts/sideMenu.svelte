@@ -2,6 +2,7 @@
   import {space} from 'svelte/internal'
   import {envVariables} from '../../../envVariables'
   import {IconData} from '../../enum/iconData'
+    import API from '../../managers/apiManager'
   import type {AuthUser} from '../../models/authUser'
   import {User} from '../../models/user'
   import {YoutubeData} from '../../models/youtubeData'
@@ -49,6 +50,15 @@
 
   function onSaveProfile(event: CustomEvent<{user: User}>) {}
   function onDeleteProfile(event: CustomEvent<{user: User}>) {}
+  function onLogoutClick() {
+    API.get(envVariables.API_AUTH_LOGOUT_URL)
+      .then(res => {
+        authUser = undefined
+      }).catch(err => {
+        //TODO: Handle errors
+        console.log(err)
+      })
+  }
 </script>
 
 <aside class="min-w-fit w-1/3 h-full" aria-label="Sidebar">
@@ -63,11 +73,17 @@
       </a>
       <div>
         {#if authUser}
-          <img
-            class="w-8 h-8 rounded-full"
-            src={`${envVariables.AVATAR_GENERATION_URL}${authUser.name}.svg`}
-            alt="Your profile avatar"
-          />
+          <div class="flex space-x-2">
+            <button
+              on:click={onLogoutClick}
+              class="font-normal text-blue-500 hover:underline">Logout</button
+            >
+            <img
+              class="w-8 h-8 rounded-full"
+              src={`${envVariables.AVATAR_GENERATION_URL}${authUser.name}.svg`}
+              alt="Your profile avatar"
+            />
+          </div>
         {:else}
           <button
             on:click={() => (loginOpen = true)}
