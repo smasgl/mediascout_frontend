@@ -1,52 +1,57 @@
 <script lang="ts">
-  import {space} from 'svelte/internal'
   import {envVariables} from '../../../envVariables'
   import {IconData} from '../../enum/iconData'
     import API from '../../managers/apiManager'
   import type {AuthUser} from '../../models/authUser'
   import {User} from '../../models/user'
-  import {YoutubeData} from '../../models/youtubeData'
   import Icon from '../utils/icon.svelte'
   import IconedButton from '../utils/iconedButton.svelte'
   import Input from '../utils/input.svelte'
   import UserElement from './userElement.svelte'
   import UserMutation from './userMutation.svelte'
+  import { onMount } from 'svelte'
 
   export let selectedUser: User
   export let loginOpen = false
   export let authUser: AuthUser | undefined = undefined
 
+  onMount(() => {
+    onLoadUsers();
+  })
+
   let userModalOpened = false
   let search = ''
-  let users: User[] = [
-    new User(
-      0,
-      'PewDiePie',
-      new YoutubeData(
-        undefined,
-        undefined,
-        'https://yt3.ggpht.com/5oUY3tashyxfqsjO5SGhjT4dus8FkN9CsAHwXWISFrdPYii1FudD4ICtLfuCw6-THJsJbgoY=s88-c-k-c0x00ffffff-no-rj'
-      )
-    ),
-    new User(
-      1,
-      'Logan Paul',
-      new YoutubeData(
-        undefined,
-        undefined,
-        'https://yt3.googleusercontent.com/ytc/AMLnZu_fjSIuuuXROSYXAUX19WYHruPuUsKlylnQZvWcfw=s900-c-k-c0x00ffffff-no-rj'
-      )
-    ),
-    new User(
-      2,
-      'Andrew Tate',
-      new YoutubeData(
-        undefined,
-        undefined,
-        'https://res.cloudinary.com/dbypkwlyr/images/c_fill,w_518,h_518,f_auto,q_auto/annabelle/TATE/TATE.jpg'
-      )
-    ),
-  ]
+  let users: User[] = []
+  // = 
+  // [
+  //   new User(
+  //     0,
+  //     'PewDiePie',
+  //     new YoutubeData(
+  //       undefined,
+  //       undefined,
+  //       'https://yt3.ggpht.com/5oUY3tashyxfqsjO5SGhjT4dus8FkN9CsAHwXWISFrdPYii1FudD4ICtLfuCw6-THJsJbgoY=s88-c-k-c0x00ffffff-no-rj'
+  //     )
+  //   ),
+  //   new User(
+  //     1,
+  //     'Logan Paul',
+  //     new YoutubeData(
+  //       undefined,
+  //       undefined,
+  //       'https://yt3.googleusercontent.com/ytc/AMLnZu_fjSIuuuXROSYXAUX19WYHruPuUsKlylnQZvWcfw=s900-c-k-c0x00ffffff-no-rj'
+  //     )
+  //   ),
+  //   new User(
+  //     2,
+  //     'Andrew Tate',
+  //     new YoutubeData(
+  //       undefined,
+  //       undefined,
+  //       'https://res.cloudinary.com/dbypkwlyr/images/c_fill,w_518,h_518,f_auto,q_auto/annabelle/TATE/TATE.jpg'
+  //     )
+  //   ),
+  // ]
 
   function onSaveProfile(event: CustomEvent<{user: User}>) {}
   function onDeleteProfile(event: CustomEvent<{user: User}>) {}
@@ -58,6 +63,21 @@
         //TODO: Handle errors
         console.log(err)
       })
+  }
+
+  function onLoadUsers() {
+    API.get(envVariables.API_USER_GET_URL)
+    .then((res:any[]) => {
+      try {
+        //TODO: Replace youtube id with an object
+        users = res.map(u => new User(u.id, u.name, u.youtube_id))
+      } catch (error) {
+        users = []        
+      }
+    }).catch(err => {
+      //TODO: Handle errors
+      console.log(err)
+    })
   }
 </script>
 
@@ -99,11 +119,13 @@
         placeHolder="Search..."
         bind:value={search}
       />
+      {#if authUser && authUser.permissions && authUser.permissions.includes(envVariables.PER_ADD_USER)}
       <IconedButton
-        on:click={() => (userModalOpened = true)}
-        iconData={IconData.ADD}
-        compIconClass="w-8 fill-green-600"
+      on:click={() => (userModalOpened = true)}
+      iconData={IconData.ADD}
+      compIconClass="w-8 fill-green-600"
       />
+      {/if}
     </div>
     <ul class="h-[calc(100vh-11rem)] overflow-y-auto">
       {#each users.filter(x => x.name

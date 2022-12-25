@@ -22,7 +22,7 @@
       ? 'bg-primary bg-opacity-60'
       : 'bg-transparent'} hover:bg-primary"
   >
-    <img alt="profile" src={user.youtube.imageUrl} class="h-8 w-8" />
+    <img alt="profile" src={user.youtube?.imageUrl} class="h-8 w-8" />
     <span class="flex-1 ml-3 whitespace-nowrap">{user.name}</span>
     <Icon
       iconData={IconData.RIGHT_ARROW}
