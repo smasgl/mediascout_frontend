@@ -33,9 +33,13 @@ const get = (url: string) =>
 const post = (url: string, request: unknown = null) => 
   apiRequest('post', url, request)
 
+const put = (url: string, request: unknown = null) => 
+  apiRequest('put', url, request)
+
 const API = {
   get,
-  post
+  post,
+  put
 }
 
 export default API

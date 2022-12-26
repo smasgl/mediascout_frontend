@@ -6,6 +6,8 @@ export const envVariables = {
   API_AUTH_LOGOUT_URL: import.meta.env.VITE_API_AUTH_LOGOUT_URL as string,
   API_USER_GET_URL: import.meta.env.VITE_API_USER_GET_URL as string,
   API_USER_ADD_URL: import.meta.env.VITE_API_USER_ADD_URL as string,
+  API_USER_EDIT_URL: import.meta.env.VITE_API_USER_EDIT_URL as string,
 
   PER_ADD_USER: import.meta.env.VITE_PER_ADD_USER as string,
+  PER_EDIT_USER: import.meta.env.VITE_PER_EDIT_USER as string,
 }

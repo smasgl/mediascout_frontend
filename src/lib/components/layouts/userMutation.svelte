@@ -29,6 +29,7 @@
     })
     open = false
   }
+  
   function onSaveClick() {
     user.name = name
     dispatch('save', {

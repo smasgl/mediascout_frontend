@@ -1,7 +1,7 @@
 <script lang="ts">
   import {envVariables} from '../../../envVariables'
   import {IconData} from '../../enum/iconData'
-    import API from '../../managers/apiManager'
+  import API from '../../managers/apiManager'
   import type {AuthUser} from '../../models/authUser'
   import {User} from '../../models/user'
   import Icon from '../utils/icon.svelte'
@@ -15,8 +15,12 @@
   export let loginOpen = false
   export let authUser: AuthUser | undefined = undefined
 
+  export function reload() {
+    onLoadUsers()
+  }
+
   onMount(() => {
-    onLoadUsers();
+    reload()
   })
 
   let userModalOpened = false
@@ -54,18 +58,17 @@
   // ]
 
   function onSaveProfile(event: CustomEvent<{newUser:boolean, user: User}>) {
-    if(event.detail.newUser) {
-      console.log(event.detail.user)
-      API.post(envVariables.API_USER_ADD_URL, JSON.stringify({
-        name: event.detail.user.name
-      })).then(() => {
-        onLoadUsers()
-      }).catch(err => {
-        //TODO: Handle errors
-        console.log(err)
-      })
-    }
-  }
+    if(!event.detail.newUser)
+      return
+    API.post(envVariables.API_USER_ADD_URL, JSON.stringify({
+      name: event.detail.user.name
+    })).then(() => {
+      onLoadUsers()
+    }).catch(err => {
+      //TODO: Handle errors
+      console.log(err)
+    })
+}
 
   function onDeleteProfile(event: CustomEvent<{user: User}>) {}
   function onLogoutClick() {

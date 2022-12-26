@@ -9,6 +9,7 @@
   let selectedUser: User
   let loginOpen = false
   let authUser: AuthUser | undefined
+  let sideMenu: SideMenu
 </script>
 
 <svelte:head>
@@ -16,9 +17,9 @@
 </svelte:head>
 
 <main class="bg-primary h-screen w-screen flex flex-row p-4 space-x-4">
-  <SideMenu bind:selectedUser bind:loginOpen bind:authUser />
+  <SideMenu bind:selectedUser bind:loginOpen bind:authUser  bind:this={sideMenu}/>
   {#if selectedUser}
-    <MainView bind:selectedUser />
+    <MainView bind:selectedUser bind:authUser on:reloadSideMenu={() => sideMenu.reload()}/>
   {:else}
     <NoUserSelected />
   {/if}
