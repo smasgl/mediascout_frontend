@@ -32,6 +32,18 @@
       console.log(err)
     })
   }
+
+  function onDeleteUser(event: CustomEvent<{user:User}>){
+    API.del(envVariables.API_USER_DELETE_URL, JSON.stringify({
+      id: event.detail.user.id
+    })).then(() => {
+      dispatch("reloadSideMenu")
+      selectedUser = undefined
+    }).catch(err => {
+      //TODO: Handle errors
+      console.log(err)
+    })
+  }
 </script>
 
 <div class="bg-secondary w-full h-full rounded flex flex-col">
@@ -69,5 +81,5 @@
 </div>
 
 {#if userModalOpened}
-  <UserMutation user={selectedUser} on:save={onEditUser} bind:open={userModalOpened} />
+  <UserMutation user={selectedUser} on:save={onEditUser} on:delete={onDeleteUser} bind:open={userModalOpened} bind:authUser/>
 {/if}

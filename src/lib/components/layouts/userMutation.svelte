@@ -1,7 +1,9 @@
 <script lang="ts">
   import {createEventDispatcher, onMount} from 'svelte'
+    import { envVariables } from '../../../envVariables'
   import {ButtonStyle} from '../../enum/buttonStyles'
   import {IconData} from '../../enum/iconData'
+    import type { AuthUser } from '../../models/authUser'
   import {User} from '../../models/user'
   import DefaultButton from '../utils/defaultButton.svelte'
   import Input from '../utils/input.svelte'
@@ -10,6 +12,7 @@
 
   export let user: User = null
   export let open = false
+  export let authUser: AuthUser | undefined = undefined
 
   let openDialogue = false
   let nameValid = false
@@ -29,7 +32,7 @@
     })
     open = false
   }
-  
+
   function onSaveClick() {
     user.name = name
     dispatch('save', {
@@ -54,7 +57,7 @@
         The user name has to be between 3 and 50 characters.
       </h5>
     {/if}
-    {#if !newUser}
+    {#if !newUser && authUser && authUser.permissions && authUser.permissions.includes(envVariables.PER_DELETE_USER)}
       <div class="flex justify-between rounded bg-red-600 bg-opacity-20 p-2">
         <h5 class="text-sm text-text">
           Don't delete! It is not recommended to delete data from archives. <br

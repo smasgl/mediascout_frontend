@@ -36,10 +36,14 @@ const post = (url: string, request: unknown = null) =>
 const put = (url: string, request: unknown = null) => 
   apiRequest('put', url, request)
 
+const del = (url: string, request: unknown = null) => 
+  apiRequest('delete', url, request)
+
 const API = {
   get,
   post,
-  put
+  put,
+  del
 }
 
 export default API
