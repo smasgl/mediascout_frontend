@@ -9,6 +9,7 @@
   import { envVariables } from '../../../envVariables'
   import type { AuthUser } from '../../models/authUser'
   import { createEventDispatcher } from 'svelte'
+    import { SocialTabs } from '../../enum/socialTabs'
 
   export let selectedUser: User
   export let authUser: AuthUser | undefined = undefined
@@ -72,10 +73,10 @@
   </div>
   <TabsManager>
     <div slot="youtube">
-      <SocialTab />
+      <SocialTab tab={SocialTabs.YOUTUBE}/>
     </div>
     <div slot="twitter">
-      <SocialTab />
+      <SocialTab tab={SocialTabs.TWITTER}/>
     </div>
   </TabsManager>
 </div>
