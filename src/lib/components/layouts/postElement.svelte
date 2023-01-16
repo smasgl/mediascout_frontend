@@ -1,6 +1,6 @@
 <script lang="ts">
   import {IconData} from '../../enum/iconData'
-    import type { YoutubeVideo } from '../../models/youtubeVideo'
+  import type {YoutubeVideo} from '../../models/youtubeVideo'
   import Icon from '../utils/icon.svelte'
   import IconedButton from '../utils/iconedButton.svelte'
 

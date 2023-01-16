@@ -26,6 +26,12 @@
       bind:value
     />
   {:else}
-    <input type="text" class={classes} placeholder={placeHolder} autocomplete="username" bind:value />
+    <input
+      type="text"
+      class={classes}
+      placeholder={placeHolder}
+      autocomplete="username"
+      bind:value
+    />
   {/if}
 </div>

@@ -2,8 +2,8 @@ import axios from 'axios'
 import Cookies from 'js-cookie'
 import {envVariables} from '../../envVariables'
 
-axios.defaults.xsrfHeaderName = "X-CSRFToken";
-axios.defaults.xsrfCookieName = "csrftoken";
+axios.defaults.xsrfHeaderName = 'X-CSRFToken'
+axios.defaults.xsrfCookieName = 'csrftoken'
 
 const axiosApi = axios.create({
   baseURL: envVariables.BASE_URL,
@@ -19,7 +19,7 @@ const apiRequest = async <Type>(
       method,
       url,
       data: request,
-      withCredentials: true
+      withCredentials: true,
     })
     return (await Promise.resolve(result.data)) as Promise<Type>
   } catch (error) {
@@ -27,23 +27,22 @@ const apiRequest = async <Type>(
   }
 }
 
-const get = (url: string) =>
-  apiRequest('get', url, null)
+const get = (url: string) => apiRequest('get', url, null)
 
-const post = (url: string, request: unknown = null) => 
+const post = (url: string, request: unknown = null) =>
   apiRequest('post', url, request)
 
-const put = (url: string, request: unknown = null) => 
+const put = (url: string, request: unknown = null) =>
   apiRequest('put', url, request)
 
-const del = (url: string, request: unknown = null) => 
+const del = (url: string, request: unknown = null) =>
   apiRequest('delete', url, request)
 
 const API = {
   get,
   post,
   put,
-  del
+  del,
 }
 
 export default API

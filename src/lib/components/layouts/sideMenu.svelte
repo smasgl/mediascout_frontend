@@ -9,7 +9,7 @@
   import Input from '../utils/input.svelte'
   import UserElement from './userElement.svelte'
   import UserMutation from './userMutation.svelte'
-  import { onMount } from 'svelte'
+  import {onMount} from 'svelte'
 
   export let selectedUser: User
   export let loginOpen = false
@@ -27,25 +27,30 @@
   let search = ''
   let users: User[] = []
 
-  function onSaveProfile(event: CustomEvent<{newUser:boolean, user: User}>) {
-    if(!event.detail.newUser)
-      return
-    API.post(envVariables.API_USER_ADD_URL, JSON.stringify({
-      name: event.detail.user.name
-    })).then(() => {
-      onLoadUsers()
-    }).catch(err => {
-      //TODO: Handle errors
-      console.log(err)
-    })
-}
+  function onSaveProfile(event: CustomEvent<{newUser: boolean; user: User}>) {
+    if (!event.detail.newUser) return
+    API.post(
+      envVariables.API_USER_ADD_URL,
+      JSON.stringify({
+        name: event.detail.user.name,
+      })
+    )
+      .then(() => {
+        onLoadUsers()
+      })
+      .catch(err => {
+        //TODO: Handle errors
+        console.log(err)
+      })
+  }
 
   function onDeleteProfile(event: CustomEvent<{user: User}>) {}
   function onLogoutClick() {
     API.get(envVariables.API_AUTH_LOGOUT_URL)
       .then(() => {
         authUser = undefined
-      }).catch(err => {
+      })
+      .catch(err => {
         //TODO: Handle errors
         console.log(err)
       })
@@ -53,17 +58,18 @@
 
   function onLoadUsers() {
     API.get(envVariables.API_USER_GET_URL)
-    .then((res:any[]) => {
-      try {
-        //TODO: Replace youtube id with an object
-        users = res.map(u => new User(u.id, u.name, u.youtube_id))
-      } catch (error) {
-        users = []        
-      }
-    }).catch(err => {
-      //TODO: Handle errors
-      console.log(err)
-    })
+      .then((res: any[]) => {
+        try {
+          //TODO: Replace youtube id with an object
+          users = res.map(u => new User(u.id, u.name, u.youtube_id))
+        } catch (error) {
+          users = []
+        }
+      })
+      .catch(err => {
+        //TODO: Handle errors
+        console.log(err)
+      })
   }
 </script>
 
@@ -106,11 +112,11 @@
         bind:value={search}
       />
       {#if authUser && authUser.permissions && authUser.permissions.includes(envVariables.PER_ADD_USER)}
-      <IconedButton
-      on:click={() => (userModalOpened = true)}
-      iconData={IconData.ADD}
-      compIconClass="w-8 fill-green-600"
-      />
+        <IconedButton
+          on:click={() => (userModalOpened = true)}
+          iconData={IconData.ADD}
+          compIconClass="w-8 fill-green-600"
+        />
       {/if}
     </div>
     <ul class="h-[calc(100vh-11rem)] overflow-y-auto">

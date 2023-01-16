@@ -2,29 +2,31 @@
   import {IconData} from '../../enum/iconData'
   import Input from '../utils/input.svelte'
   import Icon from '../utils/icon.svelte'
-  import {LinkState} from '../../enum/LinkState'
   import LoadingSpinner from '../utils/loadingSpinner.svelte'
+    import { InputState } from '../../enum/InputState'
 
-  export let link = ''
-  export let state: LinkState
+  export let input = ''
+  export let state: InputState
+  export let placeHolder: string
+  export let enabled: boolean
 
   let icon: IconData
   let colorClass: string
 
   $: {
-    if (state === LinkState.VALID) {
+    if (state === InputState.VALID) {
       icon = IconData.VALID
       colorClass = 'fill-green-600'
-    } else if (state === LinkState.INVALID) {
+    } else if (state === InputState.INVALID) {
       icon = IconData.INVALID
       colorClass = 'fill-red-600'
     }
   }
 </script>
 
-<div class="flex w-full space-x-2 items-center">
-  <Input iconData={IconData.URL} placeHolder="URL" bind:value={link} />
-  {#if state === LinkState.LOADING}
+<div class="flex w-full space-x-2 items-center {enabled ? "":"pointer-events-none opacity-75"}">
+  <Input iconData={IconData.URL} {placeHolder} bind:value={input} />
+  {#if state === InputState.LOADING}
     <LoadingSpinner />
   {:else}
     <Icon iconData={icon} compClass="w-8 {colorClass}" />

@@ -1,6 +1,6 @@
 <script lang="ts">
   import {createEventDispatcher} from 'svelte'
-    import { envVariables } from '../../../envVariables'
+  import {envVariables} from '../../../envVariables'
   import {IconData} from '../../enum/iconData'
   import type {User} from '../../models/user'
   import Icon from '../utils/icon.svelte'
@@ -23,7 +23,11 @@
       ? 'bg-primary bg-opacity-60'
       : 'bg-transparent'} hover:bg-primary"
   >
-    <img alt="profile" src={user.youtube?.imageUrl ?? (envVariables.AVATAR_GENERATION_URL + user.name + ".svg")} class="h-8 w-8" />
+    <img
+      alt="profile"
+      src={envVariables.AVATAR_GENERATION_URL + user.name + '.svg'}
+      class="h-8 w-8"
+    />
     <span class="flex-1 ml-3 whitespace-nowrap">{user.name}</span>
     <Icon
       iconData={IconData.RIGHT_ARROW}

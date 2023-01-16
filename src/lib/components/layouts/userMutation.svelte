@@ -1,9 +1,9 @@
 <script lang="ts">
   import {createEventDispatcher, onMount} from 'svelte'
-    import { envVariables } from '../../../envVariables'
+  import {envVariables} from '../../../envVariables'
   import {ButtonStyle} from '../../enum/buttonStyles'
   import {IconData} from '../../enum/iconData'
-    import type { AuthUser } from '../../models/authUser'
+  import type {AuthUser} from '../../models/authUser'
   import {User} from '../../models/user'
   import DefaultButton from '../utils/defaultButton.svelte'
   import Input from '../utils/input.svelte'
