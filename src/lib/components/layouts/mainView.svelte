@@ -82,10 +82,10 @@
   </div>
   <TabsManager>
     <div slot="youtube">
-      <SocialTab {selectedUser} tab={SocialTabs.YOUTUBE} {authUser}/>
+      <SocialTab bind:selectedUser tab={SocialTabs.YOUTUBE} bind:authUser/>
     </div>
-    <div slot="twitter">
-      <SocialTab {selectedUser} tab={SocialTabs.TWITTER} {authUser}/>
+    <div slot="twitter" class="pointer-events-none opacity-75">
+      <SocialTab bind:selectedUser tab={SocialTabs.TWITTER} bind:authUser/>
     </div>
   </TabsManager>
 </div>

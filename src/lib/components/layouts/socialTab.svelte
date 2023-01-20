@@ -1,14 +1,13 @@
 <script lang="ts">
-  import {each} from 'svelte/internal'
-    import { envVariables } from '../../../envVariables'
+    import { onMount } from 'svelte'
+  import { envVariables } from '../../../envVariables'  
   import {IconData} from '../../enum/iconData'
-    import { InputState } from '../../enum/InputState'
+  import { InputState } from '../../enum/InputState'
   import {SocialTabs} from '../../enum/socialTabs'
-    import API from '../../managers/apiManager'
-    import { isValidTwitterAccountUrl, isValidYouTubeChannelId } from '../../managers/validationManager'
-    import type { AuthUser } from '../../models/authUser'
+  import API from '../../managers/apiManager'
+  import { isValidYouTubeChannelId } from '../../managers/validationManager'
+  import type { AuthUser } from '../../models/authUser'
     import type { User } from '../../models/user'
-  import type {YoutubeData} from '../../models/youtubeData'
   import {YoutubeVideo} from '../../models/youtubeVideo'
   import ConnectionAlert from '../utils/connectionAlert.svelte'
   import IconedButton from '../utils/iconedButton.svelte'
@@ -19,9 +18,10 @@
   export let selectedUser: User
   export let tab: SocialTabs
   export let authUser: AuthUser | undefined = undefined
-
-  let socialInputEnabled = false
+  
+  let oldUser: User
   let socialInput: string
+  let youtubeInputEnabled = false
   let state = InputState.LOADING
   let canFetch:boolean|undefined
   let search = ''
@@ -29,20 +29,7 @@
     new YoutubeVideo('asdfasdf', '1', new Date(), '/gagagag'),
   ]
 
-  if (tab === SocialTabs.YOUTUBE) {
-    API.get(`${envVariables.API_GET_YOUTUBEDATA}/${selectedUser.id}`)
-      .then((res: any[]) => {
-        socialInput = res["channel_id"]
-      })
-      .catch(err => {
-        //TODO: Handle errors
-        console.log(err)
-      })
-  } else {
-    //TODO: Implement Twitter
-  }
-
-  function isChannelIdFetchable(channelId:string) {
+  function setChannelId(channelId:string) {
       API.post(
           `${envVariables.API_EDIT_YOUTUBEDATA}/${selectedUser.id}`,
         JSON.stringify({
@@ -50,36 +37,65 @@
         })
       )
       .then((res: any[]) => {
-        let response = res["Message"]
-        canFetch = response === channelId
+        let response = res["channel_id"]
+        if(!(response === channelId)){
+          //TODO: Handle Errors
+          console.log("Could not set channel_id")
+        }
       })
       .catch(err => {
         //TODO: Handle Errors
         console.log(err)
-        canFetch = false
       })
   }
 
-  $: {
-    if (tab === SocialTabs.YOUTUBE) {
-      state = isValidYouTubeChannelId(socialInput);
-      canFetch = undefined
-      if (state === InputState.VALID) 
-        isChannelIdFetchable(socialInput)
-    } else {
-      //TODO: Implement Twitter
-      state = isValidTwitterAccountUrl(socialInput)
-    }
-
-    socialInputEnabled = authUser && authUser.permissions && authUser.permissions.includes(envVariables.PER_EDIT_YOUTUBEDATA)
+  async function checkChannelId(channelId:string) {
+    await API.get(
+        `${envVariables.API_CHECK_YOUTUBEDATA}/${channelId}`
+    )
+    .then((res: any[]) => {
+      let response = res["channel_id"]
+      canFetch = response === channelId
+    })
+    .catch(err => {
+      //TODO: Handle Errors
+      console.log(err)
+      canFetch = false
+    })
   }
+
+  async function inputChanged(){
+    state = isValidYouTubeChannelId(socialInput);
+    canFetch = undefined
+    if (state !== InputState.VALID) 
+      return
+      
+    await checkChannelId(socialInput)
+    if(canFetch && socialInput !== selectedUser.youtube.channel_id)
+      setChannelId(socialInput)
+  }
+
+  $: {
+    youtubeInputEnabled = authUser && authUser.permissions && authUser.permissions.includes(envVariables.PER_EDIT_YOUTUBEDATA)
+  }
+
+  $:{
+    if(oldUser != selectedUser){
+      oldUser = selectedUser
+      if(socialInput != selectedUser.youtube.channel_id){
+        socialInput = selectedUser.youtube.channel_id
+        inputChanged();
+      }
+    }
+  }
+  
 </script>
 
 <div class="flex flex-rol h-full">
   <div class="flex flex-col w-full space-y-2 h-full">
     <div class="flex flex-row space-x-2 items-center justify-between h-full">
       <div class="md:w-2/3 w-full">
-        <SocialInput bind:enabled={socialInputEnabled} bind:input={socialInput} bind:state placeHolder={tab === SocialTabs.YOUTUBE ? "Input channel id" : "Input account link"}/>
+        <SocialInput on:change={() => {inputChanged()}} bind:enabled={youtubeInputEnabled} bind:input={socialInput} bind:state placeHolder={tab === SocialTabs.YOUTUBE ? "Input channel id" : "Input account link"}/>
       </div>
       <IconedButton
         iconData={IconData.DOWNLOAD}

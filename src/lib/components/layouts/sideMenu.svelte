@@ -10,6 +10,7 @@
   import UserElement from './userElement.svelte'
   import UserMutation from './userMutation.svelte'
   import {onMount} from 'svelte'
+    import { YoutubeData } from '../../models/youtubeData'
 
   export let selectedUser: User
   export let loginOpen = false
@@ -43,7 +44,7 @@
         console.log(err)
       })
   }
-
+  //TODO: Implement
   function onDeleteProfile(event: CustomEvent<{user: User}>) {}
   function onLogoutClick() {
     API.get(envVariables.API_AUTH_LOGOUT_URL)
@@ -60,11 +61,23 @@
     API.get(envVariables.API_USER_GET_URL)
       .then((res: any[]) => {
         try {
-          //TODO: Replace youtube id with an object
-          users = res.map(u => new User(u.id, u.name, u.youtube_id))
+          users = res.map(u => new User(u.id, u.name, undefined))
         } catch (error) {
           users = []
         }
+      })
+      .catch(err => {
+        //TODO: Handle errors
+        console.log(err)
+      })
+  }
+
+  function selectUser(user:User) {
+    if(user == selectedUser) return
+    API.get(`${envVariables.API_GET_YOUTUBEDATA}/${user.id}`)
+      .then((res: any[]) => {
+        user.youtube = new YoutubeData(res["channel_id"])
+        selectedUser = user
       })
       .catch(err => {
         //TODO: Handle errors
@@ -124,8 +137,8 @@
           .toLowerCase()
           .includes(search.toLowerCase())) as user}
         <UserElement
-          {user}
-          on:click={() => (selectedUser = user)}
+          bind:user
+          on:click={() => (selectUser(user))}
           selected={user == selectedUser}
         />
       {/each}
