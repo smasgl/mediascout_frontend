@@ -8,9 +8,12 @@
   export let iconData: IconData
   export let post: YoutubeVideo
 
+  let clicked = false
+
   const dispatch = createEventDispatcher()
   function onDownloadClick() {
     dispatch('download')
+    clicked = true
   }
 </script>
 
@@ -23,10 +26,14 @@
     <span class="whitespace-nowrap flex-1 font-semibold">{post?.title}</span>
     <span class="whitespace-nowrap">{new Date(post?.length * 1000).toISOString().slice(11, 19)}</span>
     <span class="whitespace-nowrap">{post?.published_at}</span>
+    {#if clicked}
+      <Icon iconData={IconData.VALID} compClass={"fill-accent opacity-50 h-8 w-8"} />
+    {:else}
     <IconedButton
       on:click={onDownloadClick}
       iconData={IconData.DOWNLOAD}
       compClass="fill-accent h-8 w-8"
     />
+    {/if}
   </div>
 </li>

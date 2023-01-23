@@ -18,4 +18,6 @@ export const envVariables = {
   API_CHECK_YOUTUBEDATA: import.meta.env.VITE_API_CHECK_YOUTUBEDATA as string,
   API_EDIT_YOUTUBEDATA: import.meta.env.VITE_API_EDIT_YOUTUBEDATA as string,
   API_GET_YOUTUBEDATA_VIDEOS: import.meta.env.VITE_API_GET_YOUTUBEDATA_VIDEOS as string,
+  API_GET_YOUTUBEVIDEO: import.meta.env.VITE_API_GET_YOUTUBEVIDEO as string,
+  API_GET_YOUTUBEVIDEO_ALL: import.meta.env.VITE_API_GET_YOUTUBEVIDEO_ALL as string,
 }

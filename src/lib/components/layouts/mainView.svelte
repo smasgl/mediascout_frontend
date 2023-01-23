@@ -11,6 +11,8 @@
   import {createEventDispatcher} from 'svelte'
   import {SocialTabs} from '../../enum/socialTabs'
     import type { YoutubeVideo } from '../../models/youtubeVideo'
+    import axios from 'axios'
+    import type { YoutubeData } from '../../models/youtubeData'
 
   export let selectedUser: User
   export let authUser: AuthUser | undefined = undefined
@@ -57,8 +59,30 @@
       })
   }
 
-  function downloadYoutubeVideo(event: CustomEvent<{video: YoutubeVideo}>) {
-    //TODO: Download youtube video
+  async function downloadYoutubeVideo(event: CustomEvent<{video: YoutubeVideo}>) {
+    axios.get(`${envVariables.API_GET_YOUTUBEVIDEO}/${event.detail.video.id}`, {
+      responseType: 'blob',
+        }).then(response => {
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `video_(${event.detail.video.video_id}).zip`);
+            document.body.appendChild(link);
+            link.click();
+        });
+  }
+
+  async function downloadAllYoutubeVideos(event: CustomEvent<{youtube: YoutubeData}>) {
+    axios.get(envVariables.API_GET_YOUTUBEVIDEO_ALL.replace("[0]", event.detail.youtube.id.toString()), {
+      responseType: 'blob',
+        }).then(response => {
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `youtube_(${event.detail.youtube.channel_id}).zip`);
+            document.body.appendChild(link);
+            link.click();
+        });
   }
 </script>
 
@@ -81,14 +105,10 @@
         />
       {/if}
     </div>
-    <IconedButton
-      iconData={IconData.DOWNLOAD}
-      compClass="fill-accent h-8 w-8"
-    />
   </div>
   <TabsManager>
     <div slot="youtube">
-      <SocialTab bind:this={videoTab} bind:selectedUser tab={SocialTabs.YOUTUBE} bind:authUser on:download_youtube={downloadYoutubeVideo}/>
+      <SocialTab bind:this={videoTab} bind:selectedUser tab={SocialTabs.YOUTUBE} bind:authUser on:download_youtube_all={downloadAllYoutubeVideos} on:download_youtube={downloadYoutubeVideo}/>
     </div>
     <div slot="twitter">
       <SocialTab bind:selectedUser tab={SocialTabs.TWITTER} bind:authUser/>

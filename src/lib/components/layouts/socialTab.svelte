@@ -8,8 +8,10 @@
   import { isValidYouTubeChannelId } from '../../managers/validationManager'
   import type { AuthUser } from '../../models/authUser'
     import type { User } from '../../models/user'
+    import { YoutubeData } from '../../models/youtubeData'
   import {YoutubeVideo} from '../../models/youtubeVideo'
   import ConnectionAlert from '../utils/connectionAlert.svelte'
+    import Icon from '../utils/icon.svelte'
   import IconedButton from '../utils/iconedButton.svelte'
   import Input from '../utils/input.svelte'
   import PostElement from './postElement.svelte'
@@ -23,6 +25,7 @@
   export function selectionChanged(selected:User){
     selectedUser = selected
     socialInput = selectedUser.youtube?.channel_id
+    downloadedAll = false
     inputChanged();
     getYoutubeVideos();
   }
@@ -32,6 +35,7 @@
   let state = InputState.LOADING
   let canFetch:boolean|undefined
   let search = ''
+  let downloadedAll = false
 
   onMount(() => {
     selectionChanged(selectedUser)
@@ -84,9 +88,10 @@
   }
 
   async function getYoutubeVideos(){
+    posts = []
     if(selectedUser.youtube === undefined) return;
     await API.get(
-        `${envVariables.API_GET_YOUTUBEDATA}/${selectedUser.youtube.id}/${envVariables.API_GET_YOUTUBEDATA_VIDEOS}`
+        `${envVariables.API_GET_YOUTUBEDATA_VIDEOS.replace("[0]", selectedUser.youtube.id.toString())}`
     )
     .then((res: any[]) => {
       try {
@@ -111,6 +116,13 @@
     }
   }
 
+  function onDownloadAllClick() {
+    dispatch('download_youtube_all', {
+        youtube: selectedUser.youtube,
+    })
+    downloadedAll = true
+  }
+
   $: {
     youtubeInputEnabled = authUser && authUser.permissions && authUser.permissions.includes(envVariables.PER_EDIT_YOUTUBEDATA)
   }
@@ -122,10 +134,15 @@
       <div class="md:w-2/3 w-full">
         <SocialInput on:change={() => {inputChanged()}} bind:enabled={youtubeInputEnabled} bind:input={socialInput} bind:state placeHolder={tab === SocialTabs.YOUTUBE ? "Input channel id" : "Input account link"}/>
       </div>
+      {#if downloadedAll}
+        <Icon iconData={IconData.VALID} compClass={"fill-accent opacity-50 h-8 w-8"} />
+      {:else}
       <IconedButton
+        on:click={onDownloadAllClick}
         iconData={IconData.DOWNLOAD}
         compClass="fill-accent h-8 w-8"
       />
+      {/if}
     </div>
     {#if canFetch}
       <ConnectionAlert
