@@ -10,9 +10,11 @@
   import type {AuthUser} from '../../models/authUser'
   import {createEventDispatcher} from 'svelte'
   import {SocialTabs} from '../../enum/socialTabs'
+    import type { YoutubeVideo } from '../../models/youtubeVideo'
 
   export let selectedUser: User
   export let authUser: AuthUser | undefined = undefined
+  export let videoTab:SocialTab
 
   const dispatch = createEventDispatcher()
 
@@ -54,6 +56,10 @@
         console.log(err)
       })
   }
+
+  function downloadYoutubeVideo(event: CustomEvent<{video: YoutubeVideo}>) {
+    //TODO: Download youtube video
+  }
 </script>
 
 <div class="bg-secondary w-full h-full rounded flex flex-col">
@@ -82,9 +88,9 @@
   </div>
   <TabsManager>
     <div slot="youtube">
-      <SocialTab bind:selectedUser tab={SocialTabs.YOUTUBE} bind:authUser/>
+      <SocialTab bind:this={videoTab} bind:selectedUser tab={SocialTabs.YOUTUBE} bind:authUser on:download_youtube={downloadYoutubeVideo}/>
     </div>
-    <div slot="twitter" class="pointer-events-none opacity-75">
+    <div slot="twitter">
       <SocialTab bind:selectedUser tab={SocialTabs.TWITTER} bind:authUser/>
     </div>
   </TabsManager>

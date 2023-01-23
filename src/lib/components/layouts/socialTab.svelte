@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { onMount } from 'svelte'
+    import { createEventDispatcher, onMount } from 'svelte'
   import { envVariables } from '../../../envVariables'  
   import {IconData} from '../../enum/iconData'
   import { InputState } from '../../enum/InputState'
@@ -18,16 +18,24 @@
   export let selectedUser: User
   export let tab: SocialTabs
   export let authUser: AuthUser | undefined = undefined
+  export let posts: YoutubeVideo[] = []
   
-  let oldUser: User
+  export function selectionChanged(selected:User){
+    selectedUser = selected
+    socialInput = selectedUser.youtube?.channel_id
+    inputChanged();
+    getYoutubeVideos();
+  }
+
   let socialInput: string
   let youtubeInputEnabled = false
   let state = InputState.LOADING
   let canFetch:boolean|undefined
   let search = ''
-  let posts: YoutubeVideo[] = [
-    new YoutubeVideo('asdfasdf', '1', new Date(), '/gagagag'),
-  ]
+
+  onMount(() => {
+    selectionChanged(selectedUser)
+  })
 
   function setChannelId(channelId:string) {
       API.post(
@@ -71,24 +79,41 @@
       return
       
     await checkChannelId(socialInput)
-    if(canFetch && socialInput !== selectedUser.youtube.channel_id)
+    if(canFetch && socialInput !== selectedUser?.youtube?.channel_id)
       setChannelId(socialInput)
+  }
+
+  async function getYoutubeVideos(){
+    if(selectedUser.youtube === undefined) return;
+    await API.get(
+        `${envVariables.API_GET_YOUTUBEDATA}/${selectedUser.youtube.id}/${envVariables.API_GET_YOUTUBEDATA_VIDEOS}`
+    )
+    .then((res: any[]) => {
+      try {
+        posts = res["videos"].map(v => new YoutubeVideo(v.id, v.video_id, v.title, v.length, v.publish_date))
+      } catch (error) {
+        posts = []
+      }
+    })
+    .catch(err => {
+      //TODO: Handle Errors
+      console.log(err)
+      canFetch = false
+    })
+  }
+
+  const dispatch = createEventDispatcher()
+  function onDownloadClick(post:YoutubeVideo) {
+    if(post instanceof YoutubeVideo){
+      dispatch('download_youtube', {
+        video: post,
+      })
+    }
   }
 
   $: {
     youtubeInputEnabled = authUser && authUser.permissions && authUser.permissions.includes(envVariables.PER_EDIT_YOUTUBEDATA)
   }
-
-  $:{
-    if(oldUser != selectedUser){
-      oldUser = selectedUser
-      if(socialInput != selectedUser.youtube.channel_id){
-        socialInput = selectedUser.youtube.channel_id
-        inputChanged();
-      }
-    }
-  }
-  
 </script>
 
 <div class="flex flex-rol h-full">
@@ -131,6 +156,7 @@
           .includes(search.toLowerCase())) as post}
         <PostElement
           iconData={tab === SocialTabs.YOUTUBE ? IconData.VIDEO : IconData.POST}
+          on:download={() => onDownloadClick(post)}
           {post}
         />
       {/each}

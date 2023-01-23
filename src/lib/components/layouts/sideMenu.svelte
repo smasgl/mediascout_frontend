@@ -10,11 +10,13 @@
   import UserElement from './userElement.svelte'
   import UserMutation from './userMutation.svelte'
   import {onMount} from 'svelte'
-    import { YoutubeData } from '../../models/youtubeData'
+  import { YoutubeData } from '../../models/youtubeData'
+  import type SocialTab from './socialTab.svelte'
 
   export let selectedUser: User
   export let loginOpen = false
   export let authUser: AuthUser | undefined = undefined
+  export let videoTab:SocialTab
 
   export function reload() {
     onLoadUsers()
@@ -61,7 +63,7 @@
     API.get(envVariables.API_USER_GET_URL)
       .then((res: any[]) => {
         try {
-          users = res.map(u => new User(u.id, u.name, undefined))
+          users = res.map(u => new User(u.id, u.name))
         } catch (error) {
           users = []
         }
@@ -76,8 +78,9 @@
     if(user == selectedUser) return
     API.get(`${envVariables.API_GET_YOUTUBEDATA}/${user.id}`)
       .then((res: any[]) => {
-        user.youtube = new YoutubeData(res["channel_id"])
+        user.youtube = res["id"] ? new YoutubeData(res["id"], res["channel_id"]) : undefined;
         selectedUser = user
+        videoTab?.selectionChanged(selectedUser)
       })
       .catch(err => {
         //TODO: Handle errors

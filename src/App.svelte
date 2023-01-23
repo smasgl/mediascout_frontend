@@ -3,6 +3,7 @@
   import MainView from './lib/components/layouts/mainView.svelte'
   import NoUserSelected from './lib/components/layouts/noUserSelected.svelte'
   import SideMenu from './lib/components/layouts/sideMenu.svelte'
+  import type SocialTab from './lib/components/layouts/socialTab.svelte'
   import type {AuthUser} from './lib/models/authUser'
   import type {User} from './lib/models/user'
 
@@ -10,6 +11,7 @@
   let loginOpen = false
   let authUser: AuthUser | undefined
   let sideMenu: SideMenu
+  let videoTab: SocialTab
 </script>
 
 <svelte:head>
@@ -21,12 +23,14 @@
     bind:selectedUser
     bind:loginOpen
     bind:authUser
+    bind:videoTab
     bind:this={sideMenu}
   />
   {#if selectedUser}
     <MainView
       bind:selectedUser
       bind:authUser
+      bind:videoTab
       on:reloadSideMenu={() => sideMenu.reload()}
     />
   {:else}

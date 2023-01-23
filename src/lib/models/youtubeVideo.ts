@@ -1,18 +1,21 @@
 export class YoutubeVideo {
+  id: number | undefined = undefined
+  video_id: string | undefined = undefined
   title: string | undefined = undefined
-  channel_id: string | undefined = undefined
+  length: number | undefined = undefined
   published_at: Date | undefined = undefined
-  path: string | undefined = undefined
 
   constructor(
+    id: number | undefined = undefined,
+    video_id: string | undefined = undefined,
     title: string | undefined = undefined,
-    channel_id: string | undefined = undefined,
+    length: number | undefined = undefined,
     published_at: Date | undefined = undefined,
-    path: string | undefined = undefined
   ) {
+    this.id = id
+    this.video_id = video_id
     this.title = title
-    this.channel_id = channel_id
+    this.length = length
     this.published_at = published_at
-    this.path = path
   }
 }

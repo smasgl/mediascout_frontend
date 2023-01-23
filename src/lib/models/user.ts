@@ -1,4 +1,4 @@
-import {YoutubeData} from './youtubeData'
+import type {YoutubeData} from './youtubeData'
 
 export class User {
   id: number | undefined = undefined
@@ -12,6 +12,6 @@ export class User {
   ) {
     this.id = id
     this.name = name
-    this.youtube = youtube ?? new YoutubeData()
+    this.youtube = youtube
   }
 }
