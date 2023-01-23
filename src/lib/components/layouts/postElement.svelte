@@ -1,5 +1,6 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte'
+    import { envVariables } from '../../../envVariables'
   import {IconData} from '../../enum/iconData'
   import type {YoutubeVideo} from '../../models/youtubeVideo'
   import Icon from '../utils/icon.svelte'
@@ -12,7 +13,6 @@
 
   const dispatch = createEventDispatcher()
   function onDownloadClick() {
-    dispatch('download')
     clicked = true
   }
 </script>
@@ -29,11 +29,13 @@
     {#if clicked}
       <Icon iconData={IconData.VALID} compClass={"fill-accent opacity-50 h-8 w-8"} />
     {:else}
-    <IconedButton
-      on:click={onDownloadClick}
-      iconData={IconData.DOWNLOAD}
-      compClass="fill-accent h-8 w-8"
-    />
+    <a href="{`${envVariables.API_GET_YOUTUBEVIDEO}/${post.id}`}">
+      <IconedButton
+        on:click={onDownloadClick}
+        iconData={IconData.DOWNLOAD}
+        compClass="fill-accent h-8 w-8"
+      />
+    </a>
     {/if}
   </div>
 </li>

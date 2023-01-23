@@ -107,19 +107,7 @@
     })
   }
 
-  const dispatch = createEventDispatcher()
-  function onDownloadClick(post:YoutubeVideo) {
-    if(post instanceof YoutubeVideo){
-      dispatch('download_youtube', {
-        video: post,
-      })
-    }
-  }
-
   function onDownloadAllClick() {
-    dispatch('download_youtube_all', {
-        youtube: selectedUser.youtube,
-    })
     downloadedAll = true
   }
 
@@ -134,14 +122,18 @@
       <div class="md:w-2/3 w-full">
         <SocialInput on:change={() => {inputChanged()}} bind:enabled={youtubeInputEnabled} bind:input={socialInput} bind:state placeHolder={tab === SocialTabs.YOUTUBE ? "Input channel id" : "Input account link"}/>
       </div>
-      {#if downloadedAll}
+      {#if selectedUser.youtube === undefined}
+        <Icon iconData={IconData.INVALID} compClass={"fill-accent opacity-50 h-8 w-8"} />
+      {:else if downloadedAll}
         <Icon iconData={IconData.VALID} compClass={"fill-accent opacity-50 h-8 w-8"} />
       {:else}
-      <IconedButton
-        on:click={onDownloadAllClick}
-        iconData={IconData.DOWNLOAD}
-        compClass="fill-accent h-8 w-8"
-      />
+        <a href="{envVariables.API_GET_YOUTUBEVIDEO_ALL.replace("[0]", selectedUser?.youtube?.id.toString())}">
+          <IconedButton
+            on:click={onDownloadAllClick}
+            iconData={IconData.DOWNLOAD}
+            compClass="fill-accent h-8 w-8"
+          />
+        </a>
       {/if}
     </div>
     {#if canFetch}
@@ -173,7 +165,6 @@
           .includes(search.toLowerCase())) as post}
         <PostElement
           iconData={tab === SocialTabs.YOUTUBE ? IconData.VIDEO : IconData.POST}
-          on:download={() => onDownloadClick(post)}
           {post}
         />
       {/each}

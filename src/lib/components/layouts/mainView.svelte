@@ -58,32 +58,6 @@
         console.log(err)
       })
   }
-
-  async function downloadYoutubeVideo(event: CustomEvent<{video: YoutubeVideo}>) {
-    axios.get(`${envVariables.API_GET_YOUTUBEVIDEO}/${event.detail.video.id}`, {
-      responseType: 'blob',
-        }).then(response => {
-            const url = window.URL.createObjectURL(new Blob([response.data]));
-            const link = document.createElement('a');
-            link.href = url;
-            link.setAttribute('download', `video_(${event.detail.video.video_id}).zip`);
-            document.body.appendChild(link);
-            link.click();
-        });
-  }
-
-  async function downloadAllYoutubeVideos(event: CustomEvent<{youtube: YoutubeData}>) {
-    axios.get(envVariables.API_GET_YOUTUBEVIDEO_ALL.replace("[0]", event.detail.youtube.id.toString()), {
-      responseType: 'blob',
-        }).then(response => {
-            const url = window.URL.createObjectURL(new Blob([response.data]));
-            const link = document.createElement('a');
-            link.href = url;
-            link.setAttribute('download', `youtube_(${event.detail.youtube.channel_id}).zip`);
-            document.body.appendChild(link);
-            link.click();
-        });
-  }
 </script>
 
 <div class="bg-secondary w-full h-full rounded flex flex-col">
@@ -108,7 +82,7 @@
   </div>
   <TabsManager>
     <div slot="youtube">
-      <SocialTab bind:this={videoTab} bind:selectedUser tab={SocialTabs.YOUTUBE} bind:authUser on:download_youtube_all={downloadAllYoutubeVideos} on:download_youtube={downloadYoutubeVideo}/>
+      <SocialTab bind:this={videoTab} bind:selectedUser tab={SocialTabs.YOUTUBE} bind:authUser/>
     </div>
     <div slot="twitter">
       <SocialTab bind:selectedUser tab={SocialTabs.TWITTER} bind:authUser/>
