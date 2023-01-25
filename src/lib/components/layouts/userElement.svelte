@@ -25,7 +25,7 @@
   >
     <img
       alt="profile"
-      src={envVariables.AVATAR_GENERATION_URL + user.name + '.svg'}
+      src={`${envVariables.AVATAR_GENERATION_URL}${user.name}.svg`}
       class="h-8 w-8"
     />
     <span class="flex-1 ml-3 whitespace-nowrap">{user.name}</span>

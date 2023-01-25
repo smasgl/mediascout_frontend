@@ -46,8 +46,7 @@
         console.log(err)
       })
   }
-  //TODO: Implement
-  function onDeleteProfile(event: CustomEvent<{user: User}>) {}
+  
   function onLogoutClick() {
     API.get(envVariables.API_AUTH_LOGOUT_URL)
       .then(() => {
@@ -153,6 +152,5 @@
   <UserMutation
     bind:open={userModalOpened}
     on:save={onSaveProfile}
-    on:delete={onDeleteProfile}
   />
 {/if}

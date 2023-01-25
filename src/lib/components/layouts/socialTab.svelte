@@ -107,10 +107,6 @@
     })
   }
 
-  function onDownloadAllClick() {
-    downloadedAll = true
-  }
-
   $: {
     youtubeInputEnabled = authUser && authUser.permissions && authUser.permissions.includes(envVariables.PER_EDIT_YOUTUBEDATA)
   }
@@ -129,7 +125,7 @@
       {:else}
         <a href="{envVariables.API_GET_YOUTUBEVIDEO_ALL.replace("[0]", selectedUser?.youtube?.id.toString())}">
           <IconedButton
-            on:click={onDownloadAllClick}
+            on:click={() => {downloadedAll = true}}
             iconData={IconData.DOWNLOAD}
             compClass="fill-accent h-8 w-8"
           />

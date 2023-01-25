@@ -10,9 +10,6 @@
   import type {AuthUser} from '../../models/authUser'
   import {createEventDispatcher} from 'svelte'
   import {SocialTabs} from '../../enum/socialTabs'
-    import type { YoutubeVideo } from '../../models/youtubeVideo'
-    import axios from 'axios'
-    import type { YoutubeData } from '../../models/youtubeData'
 
   export let selectedUser: User
   export let authUser: AuthUser | undefined = undefined
