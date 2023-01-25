@@ -3,8 +3,8 @@
   import Input from '../utils/input.svelte'
   import Icon from '../utils/icon.svelte'
   import LoadingSpinner from '../utils/loadingSpinner.svelte'
-    import { InputState } from '../../enum/InputState'
-    import { createEventDispatcher } from 'svelte'
+  import { InputState } from '../../enum/InputState'
+  import { createEventDispatcher } from 'svelte'
 
   export let input = ''
   export let state: InputState

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { envVariables } from '../../../envVariables'
+  import { envVariables } from '../../../envVariables'
   import {IconData} from '../../enum/iconData'
   import type {YoutubeVideo} from '../../models/youtubeVideo'
   import Icon from '../utils/icon.svelte'
