@@ -9,6 +9,7 @@
   import type { AuthUser } from '../../models/authUser'
   import type { User } from '../../models/user'
   import {YoutubeVideo} from '../../models/youtubeVideo'
+    import { showAlert } from '../../stores/alertStore'
   import ConnectionAlert from '../utils/connectionAlert.svelte'
   import Icon from '../utils/icon.svelte'
   import IconedButton from '../utils/iconedButton.svelte'
@@ -49,14 +50,9 @@
       )
       .then((res: any[]) => {
         let response = res["channel_id"]
-        if(!(response === channelId)){
-          //TODO: Handle Errors
-          console.log("Could not set channel_id")
-        }
       })
       .catch(err => {
-        //TODO: Handle Errors
-        console.log(err)
+        showAlert.set("Could not set the channel id!")
       })
   }
 
@@ -69,8 +65,7 @@
       canFetch = response === channelId
     })
     .catch(err => {
-      //TODO: Handle Errors
-      console.log(err)
+      showAlert.set("Could not check the channel id!")
       canFetch = false
     })
   }
@@ -100,8 +95,7 @@
       }
     })
     .catch(err => {
-      //TODO: Handle Errors
-      console.log(err)
+      showAlert.set("Could not fetch the channel videos!")
       canFetch = false
     })
   }

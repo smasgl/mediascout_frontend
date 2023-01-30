@@ -8,6 +8,7 @@
   import {AuthUser} from '../../models/authUser'
   import API from '../../managers/apiManager'
   import {envVariables} from '../../../envVariables'
+    import { showAlert } from '../../stores/alertStore'
 
   export let open = false
   export let authUser: AuthUser | undefined
@@ -24,14 +25,13 @@
         authUser = new AuthUser(userName, res as string[])
       })
       .catch(err => {
-        //TODO: Handle Errors
-        console.log(err)
+        showAlert.set(`The login failed.`)
       })
     open = false
   }
 
-  let userName: string = 'lwnmas9'
-  let userPassword: string = 'edvedvedv'
+  let userName: string
+  let userPassword: string
 </script>
 
 <DefaultModal bind:open maxWidth={'max-w-sm'}>

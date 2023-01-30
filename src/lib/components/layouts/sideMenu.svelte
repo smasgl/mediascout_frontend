@@ -12,6 +12,7 @@
   import {onMount} from 'svelte'
   import { YoutubeData } from '../../models/youtubeData'
   import type SocialTab from './socialTab.svelte'
+    import { showAlert } from '../../stores/alertStore'
 
   export let selectedUser: User
   export let loginOpen = false
@@ -42,8 +43,7 @@
         onLoadUsers()
       })
       .catch(err => {
-        //TODO: Handle errors
-        console.log(err)
+        showAlert.set(`Could not save user!`)
       })
   }
   
@@ -53,8 +53,7 @@
         authUser = undefined
       })
       .catch(err => {
-        //TODO: Handle errors
-        console.log(err)
+        showAlert.set(`Could not log out user!`)
       })
   }
 
@@ -68,8 +67,7 @@
         }
       })
       .catch(err => {
-        //TODO: Handle errors
-        console.log(err)
+        showAlert.set(`Could not get users!`)
       })
   }
 
@@ -82,8 +80,7 @@
         videoTab?.selectionChanged(selectedUser)
       })
       .catch(err => {
-        //TODO: Handle errors
-        console.log(err)
+        showAlert.set(`Could not select user: ${user.name}`)
       })
   }
 </script>

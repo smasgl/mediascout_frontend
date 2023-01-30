@@ -10,6 +10,7 @@
   import type {AuthUser} from '../../models/authUser'
   import {createEventDispatcher} from 'svelte'
   import {SocialTabs} from '../../enum/socialTabs'
+    import { showAlert } from '../../stores/alertStore'
 
   export let selectedUser: User
   export let authUser: AuthUser | undefined = undefined
@@ -34,8 +35,7 @@
         selectedUser = selectedUser
       })
       .catch(err => {
-        //TODO: Handle errors
-        console.log(err)
+        showAlert.set(`Could not edit user!`)
       })
   }
 
@@ -51,8 +51,7 @@
         selectedUser = undefined
       })
       .catch(err => {
-        //TODO: Handle errors
-        console.log(err)
+        showAlert.set(`Could not delete user!`)
       })
   }
 </script>

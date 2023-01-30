@@ -4,8 +4,10 @@
   import NoUserSelected from './lib/components/layouts/noUserSelected.svelte'
   import SideMenu from './lib/components/layouts/sideMenu.svelte'
   import type SocialTab from './lib/components/layouts/socialTab.svelte'
+    import FixedAlert from './lib/components/utils/fixedAlert.svelte'
   import type {AuthUser} from './lib/models/authUser'
   import type {User} from './lib/models/user'
+    import { showAlert } from './lib/stores/alertStore'
 
   let selectedUser: User
   let loginOpen = false
@@ -41,3 +43,7 @@
     <Login bind:open={loginOpen} bind:authUser />
   {/if}
 </main>
+
+{#if $showAlert}
+  <FixedAlert/>
+{/if}
