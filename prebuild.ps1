@@ -8,7 +8,7 @@ Copy-Item -Path .\dist\assets ..\mediascout_backend\mediaScout_django\api\static
 
 Write-Output "copy svg site image"
 # copy favicon.svg | vite.svg
-Copy-Item -Path .\dist\vite.svg ..\mediascout_backend\mediaScout_django\api\static\vite.svg -Recurse -Force
+Copy-Item -Path .\dist\favicon.svg ..\mediascout_backend\mediaScout_django\api\static\favicon.svg -Recurse -Force
 
 
 Write-Output "delete django template"
