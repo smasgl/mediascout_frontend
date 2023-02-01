@@ -1,17 +1,37 @@
 <script lang="ts">
+  import {createEventDispatcher} from 'svelte'
+  import {envVariables} from '../../../envVariables'
   import {IconData} from '../../enum/iconData'
+  import type {User} from '../../models/user'
   import Icon from '../utils/icon.svelte'
 
-  export let profilePicture: string
-  export let profileName: string
+  export let user: User
+  export let selected = true
+
+  const dispatch = createEventDispatcher()
+  function onUserClick() {
+    dispatch('click', {
+      user: user,
+    })
+  }
 </script>
 
 <li>
   <button
-    class="flex w-full items-center p-2 text-base font-normal rounded-lg text-text hover:bg-primary"
+    on:click={onUserClick}
+    class="flex w-full items-center p-2 text-base font-normal rounded-lg text-text {selected
+      ? 'bg-primary bg-opacity-60'
+      : 'bg-transparent'} hover:bg-primary"
   >
-    <img alt="profile" src={profilePicture} class="h-8 w-8" />
-    <span class="flex-1 ml-3 whitespace-nowrap">{profileName}</span>
-    <Icon iconData={IconData.RIGHT_ARROW} compClass="fill-text h-8 w-8" />
+    <img
+      alt="profile"
+      src={`${envVariables.AVATAR_GENERATION_URL}${user.name}.svg`}
+      class="h-8 w-8"
+    />
+    <span class="flex-1 ml-3 whitespace-nowrap">{user.name}</span>
+    <Icon
+      iconData={IconData.RIGHT_ARROW}
+      compClass="{selected ? 'fill-accent' : 'fill-text'} h-8 w-8"
+    />
   </button>
 </li>

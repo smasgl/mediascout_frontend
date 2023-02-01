@@ -1,9 +1,94 @@
 <script lang="ts">
+  import {envVariables} from '../../../envVariables'
   import {IconData} from '../../enum/iconData'
+  import API from '../../managers/apiManager'
+  import type {AuthUser} from '../../models/authUser'
+  import {User} from '../../models/user'
   import Icon from '../utils/icon.svelte'
   import IconedButton from '../utils/iconedButton.svelte'
   import Input from '../utils/input.svelte'
   import UserElement from './userElement.svelte'
+  import UserMutation from './userMutation.svelte'
+  import {onMount} from 'svelte'
+  import {YoutubeData} from '../../models/youtubeData'
+  import type SocialTab from './socialTab.svelte'
+  import {showAlert} from '../../stores/alertStore'
+
+  export let selectedUser: User
+  export let loginOpen = false
+  export let authUser: AuthUser | undefined = undefined
+  export let videoTab: SocialTab
+
+  export function reload() {
+    onLoadUsers()
+  }
+
+  onMount(() => {
+    reload()
+  })
+
+  let userModalOpened = false
+  let search = ''
+  let users: User[] = []
+
+  // Send save profile request
+  function onSaveProfile(event: CustomEvent<{newUser: boolean; user: User}>) {
+    if (!event.detail.newUser) return
+    API.post(
+      envVariables.API_USER_ADD_URL,
+      JSON.stringify({
+        name: event.detail.user.name,
+      })
+    )
+      .then(() => {
+        onLoadUsers()
+      })
+      .catch(err => {
+        showAlert.set(`Could not save user!`)
+      })
+  }
+
+  // Send logout request
+  function onLogoutClick() {
+    API.get(envVariables.API_AUTH_LOGOUT_URL)
+      .then(() => {
+        authUser = undefined
+      })
+      .catch(err => {
+        showAlert.set(`Could not log out user!`)
+      })
+  }
+
+  // Send load users request
+  function onLoadUsers() {
+    API.get(envVariables.API_USER_GET_URL)
+      .then((res: any[]) => {
+        try {
+          users = res.map(u => new User(u.id, u.name))
+        } catch (error) {
+          users = []
+        }
+      })
+      .catch(err => {
+        showAlert.set(`Could not get users!`)
+      })
+  }
+
+  // Send request to get data of one user
+  function selectUser(user: User) {
+    if (user == selectedUser) return
+    API.get(`${envVariables.API_GET_YOUTUBEDATA}/${user.id}`)
+      .then((res: any[]) => {
+        user.youtube = res['id']
+          ? new YoutubeData(res['id'], res['channel_id'])
+          : undefined
+        selectedUser = user
+        videoTab?.selectionChanged(selectedUser)
+      })
+      .catch(err => {
+        showAlert.set(`Could not select user: ${user.name}`)
+      })
+  }
 </script>
 
 <aside class="min-w-fit w-1/3 h-full" aria-label="Sidebar">
@@ -16,29 +101,56 @@
           >MediaScout</span
         >
       </a>
-      <a href="." class="font-normal text-blue-600 dark:text-blue-500 hover:underline">Admin login</a>
+      <div>
+        {#if authUser}
+          <div class="flex space-x-2">
+            <button
+              on:click={onLogoutClick}
+              class="font-normal text-blue-500 hover:underline">Logout</button
+            >
+            <img
+              class="w-8 h-8 rounded-full"
+              src={`${envVariables.AVATAR_GENERATION_URL}${authUser.name}.svg`}
+              alt="Your profile avatar"
+            />
+          </div>
+        {:else}
+          <button
+            on:click={() => (loginOpen = true)}
+            class="font-normal text-blue-500 hover:underline"
+            >Login
+          </button>
+        {/if}
+      </div>
     </div>
     <div class="flex flex-row space-x-2 items-center mb-5">
-      <Input iconData={IconData.SEARCH} placeHolder="Search..." />
-      <IconedButton
-        iconData={IconData.ADD}
-        compIconClass="w-8 fill-green-600"
+      <Input
+        iconData={IconData.SEARCH}
+        placeHolder="Search..."
+        bind:value={search}
       />
+      {#if authUser && authUser.permissions && authUser.permissions.includes(envVariables.PER_ADD_USER)}
+        <IconedButton
+          on:click={() => (userModalOpened = true)}
+          iconData={IconData.ADD}
+          compIconClass="w-8 fill-green-600"
+        />
+      {/if}
     </div>
     <ul class="h-[calc(100vh-11rem)] overflow-y-auto">
-      <!--TODO: Implement user list each loop-->
-      <UserElement
-        profileName="PewDiePie"
-        profilePicture="https://yt3.ggpht.com/5oUY3tashyxfqsjO5SGhjT4dus8FkN9CsAHwXWISFrdPYii1FudD4ICtLfuCw6-THJsJbgoY=s88-c-k-c0x00ffffff-no-rj"
-      />
-      <UserElement
-        profileName="Logan Paul"
-        profilePicture="https://yt3.googleusercontent.com/ytc/AMLnZu_fjSIuuuXROSYXAUX19WYHruPuUsKlylnQZvWcfw=s900-c-k-c0x00ffffff-no-rj"
-      />
-      <UserElement
-        profileName="Andrew Tate"
-        profilePicture="https://res.cloudinary.com/dbypkwlyr/images/c_fill,w_518,h_518,f_auto,q_auto/annabelle/TATE/TATE.jpg"
-      />
+      {#each users.filter(x => x.name
+          .toLowerCase()
+          .includes(search.toLowerCase())) as user}
+        <UserElement
+          bind:user
+          on:click={() => selectUser(user)}
+          selected={user == selectedUser}
+        />
+      {/each}
     </ul>
   </div>
 </aside>
+
+{#if userModalOpened}
+  <UserMutation bind:open={userModalOpened} on:save={onSaveProfile} />
+{/if}

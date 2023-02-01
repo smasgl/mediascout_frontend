@@ -1,4 +1,4 @@
-export enum LinkState {
+export enum InputState {
   VALID,
   INVALID,
   LOADING,
