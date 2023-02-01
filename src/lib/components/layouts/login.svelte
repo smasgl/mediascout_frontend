@@ -8,11 +8,12 @@
   import {AuthUser} from '../../models/authUser'
   import API from '../../managers/apiManager'
   import {envVariables} from '../../../envVariables'
-    import { showAlert } from '../../stores/alertStore'
+  import {showAlert} from '../../stores/alertStore'
 
   export let open = false
   export let authUser: AuthUser | undefined
 
+  // Send login request
   async function onLoginClick() {
     await API.post(
       envVariables.API_AUTH_LOGIN_URL,

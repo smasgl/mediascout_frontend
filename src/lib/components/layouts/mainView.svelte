@@ -10,16 +10,17 @@
   import type {AuthUser} from '../../models/authUser'
   import {createEventDispatcher} from 'svelte'
   import {SocialTabs} from '../../enum/socialTabs'
-    import { showAlert } from '../../stores/alertStore'
+  import {showAlert} from '../../stores/alertStore'
 
   export let selectedUser: User
   export let authUser: AuthUser | undefined = undefined
-  export let videoTab:SocialTab
+  export let videoTab: SocialTab
 
   const dispatch = createEventDispatcher()
 
   let userModalOpened = false
 
+  // Send edit user request
   function onEditUser(event: CustomEvent<{newUser: boolean; user: User}>) {
     if (event.detail.newUser) return
 
@@ -39,6 +40,7 @@
       })
   }
 
+  // Send delete user request
   function onDeleteUser(event: CustomEvent<{user: User}>) {
     API.del(
       envVariables.API_USER_DELETE_URL,
@@ -78,10 +80,15 @@
   </div>
   <TabsManager>
     <div slot="youtube">
-      <SocialTab bind:this={videoTab} bind:selectedUser tab={SocialTabs.YOUTUBE} bind:authUser/>
+      <SocialTab
+        bind:this={videoTab}
+        bind:selectedUser
+        tab={SocialTabs.YOUTUBE}
+        bind:authUser
+      />
     </div>
     <div slot="twitter">
-      <SocialTab bind:selectedUser tab={SocialTabs.TWITTER} bind:authUser/>
+      <SocialTab bind:selectedUser tab={SocialTabs.TWITTER} bind:authUser />
     </div>
   </TabsManager>
 </div>

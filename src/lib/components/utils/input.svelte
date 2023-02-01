@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { createEventDispatcher } from 'svelte'
+  import {createEventDispatcher} from 'svelte'
   import type {IconData} from '../../enum/iconData'
   import Icon from './icon.svelte'
 
@@ -9,7 +9,7 @@
   export let password = false
 
   const dispatch = createEventDispatcher()
-  function change(){
+  function change() {
     dispatch('change')
   }
 
@@ -38,7 +38,9 @@
       placeholder={placeHolder}
       autocomplete="username"
       bind:value
-      on:input={() => {change()}}
+      on:input={() => {
+        change()
+      }}
     />
   {/if}
 </div>

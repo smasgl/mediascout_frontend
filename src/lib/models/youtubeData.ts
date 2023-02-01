@@ -1,4 +1,4 @@
-import type { YoutubeVideo } from "./youtubeVideo"
+import type {YoutubeVideo} from './youtubeVideo'
 
 export class YoutubeData {
   id: number | undefined = undefined
@@ -8,7 +8,7 @@ export class YoutubeData {
   constructor(
     id: number | undefined = undefined,
     channel_id: string | undefined = undefined,
-    videos: YoutubeVideo[] | undefined = undefined,
+    videos: YoutubeVideo[] | undefined = undefined
   ) {
     this.id = id
     this.channel_id = channel_id

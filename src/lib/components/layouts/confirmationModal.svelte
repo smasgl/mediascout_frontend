@@ -11,10 +11,12 @@
 
   const dispatch = createEventDispatcher()
   function onConfirmClick() {
+    // Pass up that the user confirmed
     dispatch('confirm')
     open = false
   }
   function onCancelClick() {
+    // Pass up that the user canceled
     dispatch('cancel')
     open = false
   }

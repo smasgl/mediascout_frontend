@@ -30,7 +30,7 @@
         Youtube
       </button>
     </li>
-    
+
     <li class="mr-2 pointer-events-none opacity-75">
       <button
         class="inline-flex p-4 rounded-t-lg border-b-2 border-transparent 

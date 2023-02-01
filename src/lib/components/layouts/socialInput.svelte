@@ -3,8 +3,8 @@
   import Input from '../utils/input.svelte'
   import Icon from '../utils/icon.svelte'
   import LoadingSpinner from '../utils/loadingSpinner.svelte'
-  import { InputState } from '../../enum/InputState'
-  import { createEventDispatcher } from 'svelte'
+  import {InputState} from '../../enum/InputState'
+  import {createEventDispatcher} from 'svelte'
 
   export let input = ''
   export let state: InputState
@@ -15,7 +15,7 @@
   let colorClass: string
 
   const dispatch = createEventDispatcher()
-  function change(){
+  function change() {
     dispatch('change')
   }
 
@@ -30,8 +30,19 @@
   }
 </script>
 
-<div class="flex w-full space-x-2 items-center {enabled ? "":"pointer-events-none opacity-75"}">
-  <Input iconData={IconData.URL} {placeHolder} bind:value={input} on:change={() => {change()}}/>
+<div
+  class="flex w-full space-x-2 items-center {enabled
+    ? ''
+    : 'pointer-events-none opacity-75'}"
+>
+  <Input
+    iconData={IconData.URL}
+    {placeHolder}
+    bind:value={input}
+    on:change={() => {
+      change()
+    }}
+  />
   {#if state === InputState.LOADING}
     <LoadingSpinner />
   {:else}

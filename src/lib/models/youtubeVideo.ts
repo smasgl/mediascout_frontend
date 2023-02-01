@@ -10,7 +10,7 @@ export class YoutubeVideo {
     video_id: string | undefined = undefined,
     title: string | undefined = undefined,
     length: number | undefined = undefined,
-    published_at: Date | undefined = undefined,
+    published_at: Date | undefined = undefined
   ) {
     this.id = id
     this.video_id = video_id

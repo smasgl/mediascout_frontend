@@ -10,14 +10,14 @@
   import UserElement from './userElement.svelte'
   import UserMutation from './userMutation.svelte'
   import {onMount} from 'svelte'
-  import { YoutubeData } from '../../models/youtubeData'
+  import {YoutubeData} from '../../models/youtubeData'
   import type SocialTab from './socialTab.svelte'
-    import { showAlert } from '../../stores/alertStore'
+  import {showAlert} from '../../stores/alertStore'
 
   export let selectedUser: User
   export let loginOpen = false
   export let authUser: AuthUser | undefined = undefined
-  export let videoTab:SocialTab
+  export let videoTab: SocialTab
 
   export function reload() {
     onLoadUsers()
@@ -31,6 +31,7 @@
   let search = ''
   let users: User[] = []
 
+  // Send save profile request
   function onSaveProfile(event: CustomEvent<{newUser: boolean; user: User}>) {
     if (!event.detail.newUser) return
     API.post(
@@ -46,7 +47,8 @@
         showAlert.set(`Could not save user!`)
       })
   }
-  
+
+  // Send logout request
   function onLogoutClick() {
     API.get(envVariables.API_AUTH_LOGOUT_URL)
       .then(() => {
@@ -57,6 +59,7 @@
       })
   }
 
+  // Send load users request
   function onLoadUsers() {
     API.get(envVariables.API_USER_GET_URL)
       .then((res: any[]) => {
@@ -71,11 +74,14 @@
       })
   }
 
-  function selectUser(user:User) {
-    if(user == selectedUser) return
+  // Send request to get data of one user
+  function selectUser(user: User) {
+    if (user == selectedUser) return
     API.get(`${envVariables.API_GET_YOUTUBEDATA}/${user.id}`)
       .then((res: any[]) => {
-        user.youtube = res["id"] ? new YoutubeData(res["id"], res["channel_id"]) : undefined;
+        user.youtube = res['id']
+          ? new YoutubeData(res['id'], res['channel_id'])
+          : undefined
         selectedUser = user
         videoTab?.selectionChanged(selectedUser)
       })
@@ -137,7 +143,7 @@
           .includes(search.toLowerCase())) as user}
         <UserElement
           bind:user
-          on:click={() => (selectUser(user))}
+          on:click={() => selectUser(user)}
           selected={user == selectedUser}
         />
       {/each}
@@ -146,8 +152,5 @@
 </aside>
 
 {#if userModalOpened}
-  <UserMutation
-    bind:open={userModalOpened}
-    on:save={onSaveProfile}
-  />
+  <UserMutation bind:open={userModalOpened} on:save={onSaveProfile} />
 {/if}

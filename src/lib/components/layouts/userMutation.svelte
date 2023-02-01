@@ -42,6 +42,7 @@
     open = false
   }
 
+  // Check if the name is valid
   $: nameValid = name?.length >= 3 && name?.length <= 50
 </script>
 
